@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="PC Repair Academy — learn the essential components inside a computer.">
+  <title>Repair Academy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="ambient-grid" aria-hidden="true"></div>
+  <div class="glow glow-one" aria-hidden="true"></div>
+  <div class="glow glow-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <button class="brand" type="button" data-home-button aria-label="Return to Repair Academy dashboard">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>REPAIR <strong>ACADEMY</strong></span>
+    </button>
+    <div class="system-status" aria-label="Academy system online">
+      <span class="status-dot" aria-hidden="true"></span>
+      SYSTEM ONLINE
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="screen academy-dashboard is-active" id="academy-home" data-screen="home" aria-labelledby="academy-title">
+      <div class="academy-hero">
+        <p class="eyebrow"><span aria-hidden="true">//</span> ACADEMY DASHBOARD</p>
+        <div class="hero-emblem" aria-hidden="true"><div class="chip"><span class="chip-core">RA</span></div></div>
+        <h1 id="academy-title">REPAIR <span>ACADEMY</span></h1>
+        <p class="academy-subtitle">Technical Training Center</p>
+        <p class="academy-support">Choose a department to begin your training.</p>
+        <div class="hero-rule" aria-hidden="true"><span></span></div>
+      </div>
+      <div class="department-grid">
+        <article class="department-card tech-corners">
+          <div class="department-icon" aria-hidden="true">CS</div>
+          <div class="department-copy"><p class="section-kicker">ACTIVE DEPARTMENT</p><h2>COMPUTER SYSTEMS</h2><p>Learn computer hardware, components, input/output systems, and troubleshooting.</p><span class="course-count">2 Courses Available</span></div>
+          <button class="primary-button department-button" type="button" data-department-button>ENTER DEPARTMENT <span aria-hidden="true">&rarr;</span></button>
+        </article>
+      </div>
+      <p class="expansion-note">More departments will become available as training expands.</p>
+    </section>
+
+    <section class="screen department-screen" id="computer-systems" data-screen="department" aria-labelledby="department-title">
+      <div class="department-shell">
+        <button class="back-link" type="button" data-home-button><span aria-hidden="true">&larr;</span> BACK TO ACADEMY</button>
+        <header class="department-header"><p class="section-kicker">DEPARTMENT // CS</p><h1 id="department-title">COMPUTER SYSTEMS <span>DEPARTMENT</span></h1><p>Learn how computer hardware works, how information moves through a system, and how technicians diagnose problems.</p></header>
+        <div class="course-grid">
+          <article class="course-card is-available"><div class="course-card-heading"><span class="course-number">COURSE 01</span><span class="course-status">AVAILABLE</span></div><h2>Computer Parts Training</h2><p>Identify important computer components and learn where they belong inside a computer system.</p><button class="primary-button" type="button" data-parts-button>ENTER TRAINING <span aria-hidden="true">&rarr;</span></button></article>
+          <article class="course-card is-new"><div class="course-card-heading"><span class="course-number">COURSE 02</span><span class="course-status">NEW</span></div><h2>Input &amp; Output Systems</h2><p>Practice identifying input and output devices and follow how information travels through computer systems.</p><button class="primary-button" type="button" data-input-output-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
+          <article class="course-card is-disabled" aria-labelledby="hardware-software-title"><div class="course-card-heading"><span class="course-number">COURSE 03</span><span class="course-status">COMING SOON</span></div><h2 id="hardware-software-title">Hardware vs. Software</h2><p>Diagnose computer problems and determine whether the cause is hardware or software.</p><button class="secondary-button" type="button" disabled>COMING SOON</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen io-course-screen" id="input-output-course" data-screen="input-output" aria-labelledby="input-output-title" aria-live="polite">
+      <div class="io-shell">
+        <div class="io-topbar">
+          <button class="back-link" type="button" data-department-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button>
+          <span class="terminal-label">COURSE // 02</span>
+        </div>
+        <div id="io-course-app"></div>
+      </div>
+    </section>
+
+    <section class="screen home-screen" id="computer-parts-course" data-screen="parts" aria-labelledby="home-title">
+      <div class="course-topbar"><button class="back-link" type="button" data-department-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button><span class="terminal-label">COURSE // 01</span></div>
+      <div class="hero">
+        <div class="eyebrow"><span aria-hidden="true">//</span> TECHNICIAN TRAINING TERMINAL</div>
+        <div class="hero-emblem" aria-hidden="true">
+          <div class="chip">
+            <span class="chip-core">PC</span>
+          </div>
+        </div>
+        <h1 id="home-title">PC REPAIR<br><span>ACADEMY</span></h1>
+        <p class="hero-subtitle">Can you become a <strong>Master PC Technician?</strong></p>
+        <div class="hero-rule" aria-hidden="true"><span></span></div>
+      </div>
+
+      <div class="module-heading">
+        <div>
+          <p class="section-kicker">TRAINING PROGRAM</p>
+          <h2>Select a training module</h2>
+        </div>
+        <p class="module-count"><span>04</span> MODULES AVAILABLE</p>
+      </div>
+
+      <div class="mode-grid" id="mode-grid"></div>
+
+      <aside class="curriculum" aria-label="Components covered in the academy">
+        <span class="curriculum-label">CORE COMPONENTS</span>
+        <div class="component-list">
+          <span>CPU</span><span>RAM</span><span>Storage (HDD/SSD)</span><span>Motherboard</span>
+          <span>Power Supply (PSU)</span><span>GPU</span><span>Ports &amp; Connectors</span><span>Cooling System</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="screen identify-screen" id="identify-module" data-screen="identify" aria-live="polite" aria-labelledby="identify-heading">
+      <div class="training-shell">
+        <div class="training-topbar">
+          <button class="back-link" type="button" data-home-button>
+            <span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS
+          </button>
+          <span class="terminal-label">MODULE // L01</span>
+        </div>
+
+        <section class="training-view intro-view" data-identify-view="intro">
+          <div class="intro-panel tech-corners">
+            <div class="training-badge" aria-hidden="true">01</div>
+            <p class="section-kicker">LEVEL 01</p>
+            <h1 id="identify-heading">IDENTIFY THE PART</h1>
+            <p class="training-subtitle">Visual Recognition Training</p>
+            <p class="intro-instruction">Identify each computer component from its image.</p>
+            <div class="training-specs" aria-label="Module includes 8 components and 8 questions">
+              <div><strong>8</strong><span>COMPONENTS</span></div>
+              <div><strong>8</strong><span>QUESTIONS</span></div>
+            </div>
+            <div class="intro-actions">
+              <button class="primary-button training-button" id="begin-training" type="button">BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button>
+              <button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="training-view question-view" data-identify-view="question" hidden>
+          <div class="question-header">
+            <div>
+              <p class="section-kicker">LEVEL 01</p>
+              <h1>IDENTIFY THE PART</h1>
+            </div>
+            <div class="question-stats">
+              <span id="question-counter">QUESTION 1 / 8</span>
+              <span id="score-counter">SCORE 0 / 0</span>
+            </div>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="Training progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1">
+            <span id="progress-fill"></span>
+          </div>
+
+          <div class="question-layout">
+            <div class="component-display tech-corners" id="component-display">
+              <img class="component-art-image" id="component-image" alt="Computer component identification image" draggable="false" hidden>
+              <p class="component-image-fallback" id="component-image-fallback" role="status" hidden>COMPONENT IMAGE UNAVAILABLE</p>
+            </div>
+
+            <div class="answer-area">
+              <p class="answer-prompt">WHAT COMPONENT IS THIS?</p>
+              <div class="answer-grid" id="answer-grid" aria-label="Answer choices"></div>
+              <div class="feedback-panel" id="feedback-panel" aria-live="assertive" hidden>
+                <span class="feedback-icon" id="feedback-icon" aria-hidden="true"></span>
+                <div>
+                  <strong id="feedback-title"></strong>
+                  <p id="feedback-text"></p>
+                </div>
+              </div>
+              <button class="primary-button next-button" id="next-question" type="button" hidden>NEXT QUESTION <span aria-hidden="true">&rarr;</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="training-view results-view" data-identify-view="results" hidden>
+          <div class="results-panel tech-corners">
+            <div class="completion-mark" aria-hidden="true">&#10003;</div>
+            <p class="section-kicker">TRAINING COMPLETE</p>
+            <h1>LEVEL 01<br><span>IDENTIFY THE PART</span></h1>
+            <p class="result-label">YOUR SCORE</p>
+            <div class="result-score"><strong id="final-score">0 / 8</strong><span id="final-percentage">0%</span></div>
+            <p class="performance-message" id="performance-message"></p>
+            <p class="incorrect-total">Incorrect Attempts: <strong id="incorrect-total">0</strong></p>
+            <div class="results-actions">
+              <button class="primary-button training-button" id="retry-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button>
+              <button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="screen identify-screen function-screen" id="function-module" data-screen="function" aria-live="polite" aria-labelledby="function-heading">
+      <div class="training-shell">
+        <div class="training-topbar">
+          <button class="back-link" type="button" data-home-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button>
+          <span class="terminal-label">MODULE // L02</span>
+        </div>
+
+        <section class="training-view intro-view" data-function-view="intro">
+          <div class="intro-panel tech-corners">
+            <div class="training-badge" aria-hidden="true">02</div>
+            <p class="section-kicker">LEVEL 02</p>
+            <h1 id="function-heading">WHAT DOES IT DO?</h1>
+            <p class="training-subtitle">Component Function Training</p>
+            <p class="intro-instruction">Identify the job performed by each computer component.</p>
+            <div class="training-specs" aria-label="Module includes 8 components and 8 questions">
+              <div><strong>8</strong><span>COMPONENTS</span></div><div><strong>8</strong><span>QUESTIONS</span></div>
+            </div>
+            <div class="intro-actions">
+              <button class="primary-button training-button" id="begin-function-training" type="button">BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button>
+              <button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="training-view question-view" data-function-view="question" hidden>
+          <div class="question-header">
+            <div><p class="section-kicker">LEVEL 02</p><h1>WHAT DOES IT DO?</h1></div>
+            <div class="question-stats"><span id="function-question-counter">QUESTION 1 / 8</span><span id="function-score-counter">SCORE 0 / 0</span></div>
+          </div>
+          <div class="progress-track" id="function-progress-track" role="progressbar" aria-label="Function training progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1"><span id="function-progress-fill"></span></div>
+          <div class="question-layout">
+            <div class="component-display function-component-display tech-corners" id="function-component-display">
+              <img class="component-art-image" id="function-component-image" alt="" draggable="false" hidden>
+              <p class="component-image-fallback" id="function-image-fallback" role="status" hidden>COMPONENT IMAGE UNAVAILABLE</p>
+              <p class="component-name" id="function-component-name"></p>
+            </div>
+            <div class="answer-area function-answer-area">
+              <p class="answer-prompt">WHAT DOES THIS COMPONENT DO?</p>
+              <div class="answer-grid function-answer-grid" id="function-answer-grid" aria-label="Function answer choices"></div>
+              <div class="feedback-panel" id="function-feedback-panel" aria-live="assertive" hidden><span class="feedback-icon" id="function-feedback-icon" aria-hidden="true"></span><div><strong id="function-feedback-title"></strong><p id="function-feedback-text"></p></div></div>
+              <button class="primary-button next-button" id="function-next-question" type="button" hidden>NEXT QUESTION <span aria-hidden="true">&rarr;</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="training-view results-view" data-function-view="results" hidden>
+          <div class="results-panel tech-corners">
+            <div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">TRAINING COMPLETE</p>
+            <h1>LEVEL 02<br><span>WHAT DOES IT DO?</span></h1><p class="result-label">YOUR SCORE</p>
+            <div class="result-score"><strong id="function-final-score">0 / 8</strong><span id="function-final-percentage">0%</span></div>
+            <p class="performance-message" id="function-performance-message"></p>
+            <p class="incorrect-total">Incorrect Attempts: <strong id="function-incorrect-total">0</strong></p>
+            <div class="results-actions"><button class="primary-button training-button" id="retry-function-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="screen build-screen" id="build-module" data-screen="build" aria-live="polite" aria-labelledby="build-heading">
+      <div class="training-shell">
+        <div class="training-topbar">
+          <button class="back-link" type="button" data-home-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button>
+          <span class="terminal-label">MODULE // L03</span>
+        </div>
+
+        <section class="training-view intro-view" data-build-view="intro">
+          <div class="intro-panel tech-corners">
+            <div class="training-badge" aria-hidden="true">03</div>
+            <p class="section-kicker">LEVEL 03</p>
+            <h1 id="build-heading">BUILD THE PC</h1>
+            <p class="training-subtitle">System Assembly Training</p>
+            <p class="intro-instruction">Install each component in the correct location inside the computer.</p>
+            <div class="training-specs" aria-label="Module includes 8 components and 8 installations">
+              <div><strong>8</strong><span>COMPONENTS</span></div><div><strong>8</strong><span>INSTALLATIONS</span></div>
+            </div>
+            <div class="intro-actions"><button class="primary-button training-button" id="begin-build-training" type="button">BEGIN ASSEMBLY <span aria-hidden="true">&rarr;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div>
+          </div>
+        </section>
+
+        <section class="training-view build-question-view" data-build-view="question" hidden>
+          <div class="question-header"><div><p class="section-kicker">LEVEL 03</p><h1>BUILD THE PC</h1></div><div class="question-stats"><span id="build-question-counter">INSTALLATION 1 / 8</span><span id="build-score-counter">SCORE 0 / 0</span></div></div>
+          <div class="progress-track" id="build-progress-track" role="progressbar" aria-label="Assembly progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1"><span id="build-progress-fill"></span></div>
+          <div class="build-layout">
+            <section class="build-component-card tech-corners" aria-labelledby="build-component-name">
+              <p class="answer-prompt">INSTALL THIS COMPONENT:</p>
+              <h2 id="build-component-name"></h2>
+              <button class="build-drag-source" id="build-drag-source" type="button" aria-pressed="false" aria-describedby="build-interaction-hint">
+                <img id="build-component-image" alt="" draggable="false" hidden>
+                <span id="build-image-fallback" hidden>COMPONENT IMAGE UNAVAILABLE</span>
+                <span class="drag-cue" aria-hidden="true">DRAG OR SELECT</span>
+              </button>
+              <p class="build-hint" id="build-interaction-hint">Drag the component into the tower, or select it and choose a location.</p>
+              <div class="feedback-panel build-feedback" id="build-feedback-panel" aria-live="assertive" hidden><span class="feedback-icon" id="build-feedback-icon" aria-hidden="true"></span><div><strong id="build-feedback-title"></strong><p id="build-feedback-text"></p></div></div>
+              <button class="primary-button next-button" id="build-next-component" type="button" hidden>NEXT COMPONENT <span aria-hidden="true">&rarr;</span></button>
+            </section>
+
+            <section class="assembly-panel" aria-label="Open desktop tower assembly board">
+              <p class="assembly-label">OPEN TOWER // INSTALLATION BAY</p>
+              <div class="tower" id="build-tower">
+                <div class="tower-frame" aria-hidden="true"><span class="case-top"></span><span class="case-front"></span><span class="case-feet"></span></div>
+                <div class="motherboard-reference" aria-hidden="true">
+                  <span class="board-mount m1"></span><span class="board-mount m2"></span><span class="board-mount m3"></span><span class="board-mount m4"></span>
+                  <span class="board-trace t1"></span><span class="board-trace t2"></span><span class="board-trace t3"></span>
+                  <span class="socket-graphic"><i></i></span>
+                  <span class="dimm-graphic"><i></i><i></i><i></i><i></i></span>
+                  <span class="pcie-graphic"><i></i><i></i><i></i></span>
+                  <span class="io-graphic"><i></i><i></i><i></i><i></i></span>
+                </div>
+                <div class="case-hardware" aria-hidden="true">
+                  <span class="rear-fan fan-graphic"><i></i></span>
+                  <span class="cpu-fan fan-graphic"><i></i></span>
+                  <span class="drive-rack"><i></i><i></i><i></i></span>
+                  <span class="psu-compartment"><i></i></span>
+                  <span class="rear-expansion-openings"><i></i><i></i><i></i><i></i></span>
+                  <span class="orientation rear-mark">REAR</span><span class="orientation front-mark">FRONT</span>
+                </div>
+                <button class="target-zone zone-motherboard" type="button" data-target-id="motherboard" aria-label="Motherboard mounting area"><span class="zone-label">MOTHERBOARD MOUNTING AREA</span></button>
+                <button class="target-zone zone-cpu" type="button" data-target-id="cpu" aria-label="CPU socket"><span class="zone-label">CPU SOCKET</span></button>
+                <button class="target-zone zone-ram" type="button" data-target-id="ram" aria-label="Memory slots"><span class="zone-label">MEMORY SLOTS</span></button>
+                <button class="target-zone zone-storage" type="button" data-target-id="storage" aria-label="Drive bay"><span class="zone-label">DRIVE BAY</span></button>
+                <button class="target-zone zone-psu" type="button" data-target-id="psu" aria-label="Power supply bay"><span class="zone-label">POWER SUPPLY BAY</span></button>
+                <button class="target-zone zone-gpu" type="button" data-target-id="gpu" aria-label="Expansion slot"><span class="zone-label">EXPANSION SLOT</span></button>
+                <button class="target-zone zone-ports" type="button" data-target-id="ports" aria-label="Rear input and output area"><span class="zone-label">REAR I/O</span></button>
+                <button class="target-zone zone-cooling" type="button" data-target-id="cooling" aria-label="Cooling area"><span class="zone-label">COOLING AREA</span></button>
+                <div class="installed-part" id="build-installed-part" hidden><img id="build-installed-image" alt="" draggable="false"><span aria-hidden="true">&#10003;</span></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="training-view results-view" data-build-view="results" hidden>
+          <div class="results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">ASSEMBLY COMPLETE</p><h1>LEVEL 03<br><span>BUILD THE PC</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="build-final-score">0 / 8</strong><span id="build-final-percentage">0%</span></div><p class="performance-message" id="build-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="build-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-build-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="screen repair-screen" id="repair-module" data-screen="repair" aria-live="polite" aria-labelledby="repair-heading">
+      <div class="training-shell">
+        <div class="training-topbar"><button class="back-link" type="button" data-home-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button><span class="terminal-label">MODULE // L04</span></div>
+        <section class="training-view intro-view" data-repair-view="intro">
+          <div class="intro-panel tech-corners repair-intro-panel"><div class="training-badge" aria-hidden="true">04</div><p class="section-kicker">LEVEL 04</p><h1 id="repair-heading">REPAIR SHOP</h1><p class="training-subtitle">Diagnostic Training</p><p class="intro-instruction">Read each repair ticket and identify the component most likely involved.</p><div class="training-specs" aria-label="Module includes 8 repair tickets and 8 diagnoses"><div><strong>8</strong><span>REPAIR TICKETS</span></div><div><strong>8</strong><span>DIAGNOSES</span></div></div><div class="intro-actions"><button class="primary-button training-button" id="open-repair-shop" type="button">OPEN REPAIR SHOP <span aria-hidden="true">&rarr;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
+        </section>
+        <section class="training-view repair-question-view" data-repair-view="question" hidden>
+          <div class="question-header"><div><p class="section-kicker">LEVEL 04</p><h1>REPAIR SHOP</h1></div><div class="question-stats"><span id="repair-ticket-counter">TICKET 1 / 8</span><span id="repair-score-counter">SCORE 0 / 0</span></div></div>
+          <div class="progress-track" id="repair-progress-track" role="progressbar" aria-label="Repair shop progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1"><span id="repair-progress-fill"></span></div>
+          <div class="repair-layout">
+            <article class="repair-ticket tech-corners" id="repair-ticket-panel" aria-labelledby="repair-ticket-number"><div class="ticket-scan-line" aria-hidden="true"></div><div class="ticket-heading"><div><p class="ticket-label">INCOMING SERVICE REQUEST</p><h2 id="repair-ticket-number">REPAIR TICKET #1042</h2></div><span class="ticket-open"><i aria-hidden="true"></i> STATUS: OPEN</span></div><div class="ticket-meta" aria-label="Ticket details"><span>PRIORITY: STANDARD</span><span>STATION: 04</span></div><div class="customer-report"><p>CUSTOMER REPORT:</p><blockquote id="repair-customer-report"></blockquote></div><div class="diagnostic-prompt"><span aria-hidden="true">//</span><div><small>DIAGNOSIS</small><strong>WHICH COMPONENT IS MOST LIKELY INVOLVED?</strong></div></div></article>
+            <section class="repair-diagnosis" aria-labelledby="repair-choice-heading"><p class="answer-prompt" id="repair-choice-heading">SELECT A COMPONENT TO CHECK</p><div class="repair-answer-grid" id="repair-answer-grid" aria-label="Diagnosis choices"></div><div class="feedback-panel repair-feedback" id="repair-feedback-panel" aria-live="assertive" hidden><span class="feedback-icon" id="repair-feedback-icon" aria-hidden="true"></span><div><strong id="repair-feedback-title"></strong><p id="repair-feedback-text"></p></div></div><button class="primary-button next-button" id="repair-next-ticket" type="button" hidden>NEXT TICKET <span aria-hidden="true">&rarr;</span></button></section>
+          </div>
+        </section>
+        <section class="training-view results-view" data-repair-view="results" hidden>
+          <div class="results-panel repair-results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">REPAIR SHIFT COMPLETE</p><p class="series-complete">TRAINING SERIES COMPLETE</p><h1>LEVEL 04<br><span>REPAIR SHOP</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="repair-final-score">0 / 8</strong><span id="repair-final-percentage">0%</span></div><p class="performance-message" id="repair-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="repair-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-repair-shop" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>REPAIR ACADEMY</span>
+    <span>TECHNICAL TRAINING CENTER // V1.0</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
