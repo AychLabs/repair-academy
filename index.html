@@ -39,7 +39,7 @@
       <div class="department-grid">
         <article class="department-card tech-corners">
           <div class="department-icon" aria-hidden="true">CS</div>
-          <div class="department-copy"><p class="section-kicker">ACTIVE DEPARTMENT</p><h2>COMPUTER SYSTEMS</h2><p>Learn computer hardware, components, input/output systems, and troubleshooting.</p><span class="course-count">2 Courses Available</span></div>
+          <div class="department-copy"><p class="section-kicker">ACTIVE DEPARTMENT</p><h2>COMPUTER SYSTEMS</h2><p>Learn computer hardware, components, input/output systems, and troubleshooting.</p><span class="course-count">3 Courses Available</span></div>
           <button class="primary-button department-button" type="button" data-department-button>ENTER DEPARTMENT <span aria-hidden="true">&rarr;</span></button>
         </article>
       </div>
@@ -52,8 +52,8 @@
         <header class="department-header"><p class="section-kicker">DEPARTMENT // CS</p><h1 id="department-title">COMPUTER SYSTEMS <span>DEPARTMENT</span></h1><p>Learn how computer hardware works, how information moves through a system, and how technicians diagnose problems.</p></header>
         <div class="course-grid">
           <article class="course-card is-available"><div class="course-card-heading"><span class="course-number">COURSE 01</span><span class="course-status">AVAILABLE</span></div><h2>Computer Parts Training</h2><p>Identify important computer components and learn where they belong inside a computer system.</p><button class="primary-button" type="button" data-parts-button>ENTER TRAINING <span aria-hidden="true">&rarr;</span></button></article>
-          <article class="course-card is-new"><div class="course-card-heading"><span class="course-number">COURSE 02</span><span class="course-status">NEW</span></div><h2>Input &amp; Output Systems</h2><p>Practice identifying input and output devices and follow how information travels through computer systems.</p><button class="primary-button" type="button" data-input-output-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
-          <article class="course-card is-disabled" aria-labelledby="hardware-software-title"><div class="course-card-heading"><span class="course-number">COURSE 03</span><span class="course-status">COMING SOON</span></div><h2 id="hardware-software-title">Hardware vs. Software</h2><p>Diagnose computer problems and determine whether the cause is hardware or software.</p><button class="secondary-button" type="button" disabled>COMING SOON</button></article>
+          <article class="course-card is-available"><div class="course-card-heading"><span class="course-number">COURSE 02</span><span class="course-status">AVAILABLE</span></div><h2>Input &amp; Output Systems</h2><p>Practice identifying input and output devices and follow how information travels through computer systems.</p><button class="primary-button" type="button" data-input-output-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
+          <article class="course-card is-new" aria-labelledby="hardware-software-title"><div class="course-card-heading"><span class="course-number">COURSE 03</span><span class="course-status">NEW</span></div><h2 id="hardware-software-title">Hardware vs. Software</h2><p>Diagnose computer problems and determine whether the cause involves hardware, software, or the tools that connect them.</p><button class="primary-button" type="button" data-hardware-software-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
         </div>
       </div>
     </section>
@@ -65,6 +65,16 @@
           <span class="terminal-label">COURSE // 02</span>
         </div>
         <div id="io-course-app"></div>
+      </div>
+    </section>
+
+    <section class="screen hs-course-screen" id="hardware-software-course" data-screen="hardware-software" aria-labelledby="hardware-software-course-title" aria-live="polite">
+      <div class="hs-shell">
+        <div class="hs-topbar">
+          <button class="back-link" type="button" data-department-button><span aria-hidden="true">&larr;</span> BACK TO COMPUTER SYSTEMS</button>
+          <span class="terminal-label">COURSE // 03</span>
+        </div>
+        <div id="hardware-software-app"></div>
       </div>
     </section>
 
@@ -174,7 +184,8 @@
             <p class="performance-message" id="performance-message"></p>
             <p class="incorrect-total">Incorrect Attempts: <strong id="incorrect-total">0</strong></p>
             <div class="results-actions">
-              <button class="primary-button training-button" id="retry-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button>
+              <button class="primary-button training-button" id="retry-training" type="button">RETRY SECTION <span aria-hidden="true">&#8635;</span></button>
+              <button class="secondary-button" type="button" data-parts-button>RETURN TO COMPUTER PARTS</button>
               <button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button>
             </div>
           </div>
@@ -234,7 +245,7 @@
             <div class="result-score"><strong id="function-final-score">0 / 8</strong><span id="function-final-percentage">0%</span></div>
             <p class="performance-message" id="function-performance-message"></p>
             <p class="incorrect-total">Incorrect Attempts: <strong id="function-incorrect-total">0</strong></p>
-            <div class="results-actions"><button class="primary-button training-button" id="retry-function-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div>
+            <div class="results-actions"><button class="primary-button training-button" id="retry-function-training" type="button">RETRY SECTION <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-parts-button>RETURN TO COMPUTER PARTS</button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div>
           </div>
         </section>
       </div>
@@ -313,7 +324,7 @@
         </section>
 
         <section class="training-view results-view" data-build-view="results" hidden>
-          <div class="results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">ASSEMBLY COMPLETE</p><h1>LEVEL 03<br><span>BUILD THE PC</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="build-final-score">0 / 8</strong><span id="build-final-percentage">0%</span></div><p class="performance-message" id="build-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="build-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-build-training" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
+          <div class="results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">ASSEMBLY COMPLETE</p><h1>LEVEL 03<br><span>BUILD THE PC</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="build-final-score">0 / 8</strong><span id="build-final-percentage">0%</span></div><p class="performance-message" id="build-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="build-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-build-training" type="button">RETRY SECTION <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-parts-button>RETURN TO COMPUTER PARTS</button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
         </section>
       </div>
     </section>
@@ -333,7 +344,7 @@
           </div>
         </section>
         <section class="training-view results-view" data-repair-view="results" hidden>
-          <div class="results-panel repair-results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">REPAIR SHIFT COMPLETE</p><p class="series-complete">TRAINING SERIES COMPLETE</p><h1>LEVEL 04<br><span>REPAIR SHOP</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="repair-final-score">0 / 8</strong><span id="repair-final-percentage">0%</span></div><p class="performance-message" id="repair-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="repair-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-repair-shop" type="button">RETRY MODULE <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
+          <div class="results-panel repair-results-panel tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">REPAIR SHIFT COMPLETE</p><p class="series-complete">TRAINING SERIES COMPLETE</p><h1>LEVEL 04<br><span>REPAIR SHOP</span></h1><p class="result-label">YOUR SCORE</p><div class="result-score"><strong id="repair-final-score">0 / 8</strong><span id="repair-final-percentage">0%</span></div><p class="performance-message" id="repair-performance-message"></p><p class="incorrect-total">Incorrect Attempts: <strong id="repair-incorrect-total">0</strong></p><div class="results-actions"><button class="primary-button training-button" id="retry-repair-shop" type="button">RETRY SECTION <span aria-hidden="true">&#8635;</span></button><button class="secondary-button" type="button" data-parts-button>RETURN TO COMPUTER PARTS</button><button class="secondary-button" type="button" data-home-button>RETURN TO COMPUTER SYSTEMS</button></div></div>
         </section>
       </div>
     </section>

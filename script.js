@@ -113,6 +113,7 @@ const screens = {
   department: document.querySelector('[data-screen="department"]'),
   parts: document.querySelector('[data-screen="parts"]'),
   "input-output": document.querySelector('[data-screen="input-output"]'),
+  "hardware-software": document.querySelector('[data-screen="hardware-software"]'),
   identify: document.querySelector('[data-screen="identify"]'),
   function: document.querySelector('[data-screen="function"]'),
   build: document.querySelector('[data-screen="build"]'),
@@ -301,6 +302,13 @@ function showInputOutput(updateHistory = true) {
   if (updateHistory) history.pushState({ screen: "input-output" }, "", "#input-output");
   resetIOCourse();
   showScreen("input-output");
+}
+
+function showHardwareSoftware(updateHistory = true) {
+  document.title = "Hardware vs. Software | Repair Academy";
+  if (updateHistory) history.pushState({ screen: "hardware-software" }, "", "#hardware-software");
+  resetHSCourse();
+  showScreen("hardware-software");
 }
 
 function showHome(updateHistory = true) {
@@ -836,6 +844,104 @@ ioApp.addEventListener("dragstart",event=>{const card=event.target.closest("[dat
 ioApp.addEventListener("dragover",event=>{if(event.target.closest("[data-io-zone]"))event.preventDefault();});
 ioApp.addEventListener("drop",event=>{const zone=event.target.closest("[data-io-zone]");if(zone){event.preventDefault();attemptIOPlacement(event.dataTransfer.getData("text/plain")||ioState.selected,zone.dataset.ioZone);}});
 
+/* ---------- Course 03: Hardware vs. Software ---------- */
+const hsSections = [
+  ["01","Hardware or Software?","Classify common computer items as hardware or software."],
+  ["02","Troubleshooting Detective","Decide whether a computer problem is most likely hardware or software."],
+  ["03","Software Specialist","Identify applications, drivers, firmware, and cloud-based software."],
+  ["04","Repair Ticket Challenge","Analyze technician tickets and determine what kind of problem or software is involved."]
+];
+const hsClassifications = [
+  ["Keyboard","Hardware","A keyboard is a physical input device, so it is hardware.","assets/images/input-output/Keyboard.png"],
+  ["Monitor","Hardware","A monitor is a physical output device, so it is hardware.","assets/images/input-output/Monitor.png"],
+  ["RAM","Hardware","RAM is a physical component inside the computer, so it is hardware.","assets/images/components/component-02.png"],
+  ["Hard Drive","Hardware","A hard drive is a physical storage component, so it is hardware.","assets/images/components/component-03.png"],
+  ["Mouse","Hardware","A mouse is a physical input device, so it is hardware.","assets/images/input-output/Mouse.png"],
+  ["CPU","Hardware","The CPU is a physical processor inside the computer, so it is hardware.","assets/images/components/component-01.png"],
+  ["Trackpad","Hardware","A trackpad is a physical input surface, so it is hardware.","assets/images/hardware-software/trackpad.png"],
+  ["Webcam","Hardware","A webcam is a physical camera device, so it is hardware.","assets/images/input-output/Webcam.png"],
+  ["Motherboard","Hardware","A motherboard is a physical circuit board that connects computer components.","assets/images/components/component-04.png"],
+  ["GPU","Hardware","A GPU is a physical component that processes graphics.","assets/images/components/component-06.png"],
+  ["Power Supply","Hardware","A power supply is a physical component that provides electrical power.","assets/images/components/component-05.png"],
+  ["Cooling System","Hardware","Fans and cooling parts are physical components, so they are hardware.","assets/images/components/component-08.png"],
+  ["SSD","Hardware","An SSD is a physical storage device, so it is hardware.","assets/images/components/component-03.png"],
+  ["Google Docs","Software","Google Docs is a program used to create and edit documents.","assets/images/hardware-software/google-docs.png"], ["Google Chrome","Software","Google Chrome is a web browser program.","assets/images/hardware-software/google-chrome.png"],
+  ["macOS","Software","macOS is an operating system made of programs and instructions.","assets/images/hardware-software/macos.png"], ["Video Game","Software","A video game is a program that runs on hardware.","assets/images/hardware-software/video-game.png"],
+  ["Photos App","Software","The Photos app is a program used to view and organize pictures.","assets/images/hardware-software/photos-app.png"], ["Spotify","Software","Spotify is a program used to play and organize audio.","assets/images/hardware-software/spotify.png"],
+  ["Scratch","Software","Scratch is software used to create programs.","assets/images/hardware-software/scratch.png"], ["Calculator App","Software","A calculator app is a program that performs calculations.","assets/images/hardware-software/calculator-app.png"],
+  ["Microsoft Word","Software","Microsoft Word is an application used to create documents.","assets/images/hardware-software/microsoft-word.png"], ["PowerPoint","Software","PowerPoint is an application used to make presentations.","assets/images/hardware-software/powerpoint.png"],
+  ["Safari","Software","Safari is a web browser program.","assets/images/hardware-software/safari.png"], ["Operating System","Software","An operating system is software that manages the computer.","assets/images/hardware-software/operating-system.png"], ["Music App","Software","A music app is a program used to play and organize music.","assets/images/hardware-software/music-app.png"],
+  ["Software Application","Software","An application is a program designed to help a user perform a specific task, so it is software.","assets/images/hardware-software/software-application.png","Is this a physical computer part you can touch, or a program/instruction that runs on hardware?"],
+  ["Cloud-Based Software","Software","Cloud-based software is accessed through the internet and runs as software rather than being a physical computer component.","assets/images/hardware-software/cloud-software.png","Think about whether this is a physical device or software accessed and used through a computer."]
+].map(([name,answer,explanation,imagePath=null,hint])=>({name,answer,explanation,imagePath,hint}));
+const hsConceptAssets = {
+  application: "assets/images/hardware-software/software-application.png",
+  cloudSoftware: "assets/images/hardware-software/cloud-software.png"
+};
+const hsTroubleshooting = [
+  ["Laptop Will Not Power On","The laptop will not turn on at all, even when it is plugged in.","Hardware","The problem is most likely related to a physical component such as the battery, charging port, power system, or power button."],
+  ["App Keeps Crashing","One app keeps crashing, but everything else on the computer works normally.","Software","Because the problem is limited to one program, the most likely cause is software."],
+  ["Cracked Screen","The laptop screen is cracked.","Hardware","The screen is a physical component, so physical damage to it is a hardware problem."],
+  ["App Needs Update","A message says an app must be updated before it can open.","Software","Updating an app changes its software, not the physical computer."],
+  ["Sticking Keyboard Keys","Several keyboard keys stick and do not respond correctly.","Hardware","The physical keyboard is malfunctioning, so this is most likely a hardware problem."],
+  ["Browser Freezing","The web browser is running very slowly and keeps freezing, while the rest of the computer works normally.","Software","A browser that freezes while the rest of the system works normally is usually a software problem."],
+  ["Battery Will Not Hold Charge","The laptop battery no longer holds a charge.","Hardware","The battery is a physical component, so this is a hardware problem."],
+  ["Operating System Corruption","The operating system must be reinstalled because important system files became corrupted.","Software","The operating system and its files are software."],
+  ["Broken USB Port","A USB port is bent and no longer holds a connector securely.","Hardware","The bent port is a damaged physical component, so this is a hardware problem."],
+  ["Program Will Not Install","A program displays an installation error even though the computer is working normally.","Software","The error is limited to installing a program, so software is the most likely cause."],
+  ["Fan Grinding Noise","The computer's cooling fan makes a grinding noise whenever it spins.","Hardware","A grinding fan indicates a problem with a moving physical component."],
+  ["Settings Reset","An app keeps returning to the wrong settings every time it opens.","Software","Settings are controlled by the app, so this is most likely a software problem."],
+  ["Loose Charger Connector","The laptop only charges when the cable is held at a certain angle.","Hardware","The physical charging cable or port is most likely damaged or loose."],
+  ["Missing Desktop Icons","After an operating system update, several desktop icons and settings are missing, but the computer powers on normally.","Software","The issue began with system files and settings after an update, so software is the most likely cause."],
+  ["Damaged Mouse Cable","The mouse cable is cut and the mouse no longer responds.","Hardware","The cut cable is physical damage to the mouse hardware."]
+].map(([name,prompt,answer,explanation])=>({name,prompt,answer,explanation}));
+const hsSoftware = [
+  ["Software built directly into a hardware device that controls its most basic functions.","Firmware"],
+  ["Software that allows the operating system to communicate with a specific piece of hardware.","Driver"],
+  ["Software designed to help a user perform a specific task.","Application"],
+  ["Software accessed through the internet instead of being installed and used only from the local computer.","Cloud-based software"],
+  ["A new printer needs a small piece of software before the operating system can communicate with it.","Driver"],
+  ["A webcam is connected, but the operating system needs special software to recognize and use it correctly.","Driver"],
+  ["A device uses built-in instructions immediately when it powers on, before the main operating system has fully loaded.","Firmware"],
+  ["A student opens Google Docs in a browser and works online without installing Google Docs as a traditional desktop program.","Cloud-based software"],
+  ["A student uses Gmail through a web browser.","Cloud-based software"],
+  ["A student opens Scratch to create a program. Scratch is software designed for a specific user task.","Application"],
+  ["A calculator program is designed to help the user perform calculations.","Application"],
+  ["A web browser helps users visit websites and use web-based tools.","Application"],
+  ["A graphics card receives a built-in update that changes how the card starts and controls its basic operations.","Firmware"],
+  ["The operating system installs special software so it can send sound to a newly connected audio device.","Driver"],
+  ["A student signs into an online presentation tool from a school computer and later continues from home in a browser.","Cloud-based software"]
+].map(([prompt,answer])=>({prompt,answer,explanation:{Firmware:"Firmware provides low-level built-in instructions that help hardware perform its basic functions.",Driver:"A driver acts as a translator between the operating system and a specific hardware device.",Application:"An application helps a user perform a specific task.","Cloud-based software":"Cloud-based software is accessed through the internet and can be used from different connected devices."}[answer]}));
+const hsTickets = [
+  ["The printer powers on normally, but the computer does not recognize it after it is connected.","What software may need to be installed or updated?","Driver",["Firmware","Application","Cloud-based software"],"The printer powers on, but the operating system cannot communicate with it. Checking the printer driver is the best first step."],
+  ["The computer still turns on, but the display panel is physically cracked.","What type of problem is this?","Hardware",["Software","Driver","Cloud-based software"],"The cracked display is physical damage, so this is a hardware problem."],
+  ["The computer starts, but important operating system files are corrupted and the OS needs to be reinstalled.","What type of problem is this?","Software",["Hardware","Firmware","Driver"],"The operating system and its corrupted files are software."],
+  ["The student needs to write a document on several different computers and wants to access the same program and files through a browser.","Which type of software best fits this situation?","Cloud-based software",["Firmware","Driver","Hardware"],"A browser-based tool such as Google Docs is cloud-based software and can be accessed from different connected computers."],
+  ["The user wants a program designed specifically to perform calculations.","Which software category best fits?","Application",["Driver","Firmware","Hardware"],"A calculator is an application because it helps the user perform a specific task."],
+  ["A device needs built-in low-level instructions to perform basic functions immediately when it powers on.","Which software category is involved?","Firmware",["Application","Cloud-based software","Driver"],"Firmware supplies built-in instructions for a device's most basic functions."],
+  ["The laptop battery drains extremely quickly and will no longer hold a normal charge.","What type of problem is this?","Hardware",["Application","Cloud-based software","Driver"],"The battery is a physical component, so its failure is a hardware problem."],
+  ["One program repeatedly crashes, but the rest of the computer works normally.","What type of problem is most likely?","Software",["Hardware","Firmware","Driver"],"Because only one program crashes, software is the most likely cause."],
+  ["A webcam is physically connected and powers on, but the operating system cannot use it correctly.","Which software should the technician check first?","Driver",["Application","Cloud-based software","Firmware"],"The driver lets the operating system communicate with the webcam."],
+  ["The user accesses email through a browser from different computers without installing a dedicated desktop email program.","Which software category best fits?","Cloud-based software",["Driver","Firmware","Hardware"],"Browser-based email is cloud-based software accessed through the internet."],
+  ["The charging connector is loose and only works when held in a certain physical position.","What type of problem is this?","Hardware",["Software","Application","Firmware"],"The loose charging port or connector is a physical hardware problem."],
+  ["The user opens a program specifically to listen to and organize music.","Which software category best fits?","Application",["Driver","Firmware","Hardware"],"A music program is an application designed for a specific user task."]
+].map(([report,question,answer,distractors,explanation])=>({report,question,answer,distractors,explanation}));
+const hsChoices=["Hardware","Software","Firmware","Driver","Application","Cloud-based software"];
+const hsApp=document.querySelector("#hardware-software-app");
+const hsState={section:0,index:0,order:[],earned:0,possible:0,attempts:0,answered:false,results:{}};
+function setHS(html){hsApp.innerHTML=html;hydrateHSImages();window.scrollTo({top:0,behavior:"smooth"});}
+function hydrateHSImages(){hsApp.querySelectorAll("[data-hs-image]").forEach(img=>{const fallback=img.parentElement.querySelector(".hs-art-fallback");img.onload=()=>{img.hidden=false;fallback.hidden=true;};img.onerror=()=>{img.hidden=true;fallback.hidden=false;};img.src=img.dataset.src;});}
+function hsArt(item){return `<div class="hs-art"><div class="hs-art-viewport">${item.imagePath?`<img data-hs-image data-src="${item.imagePath}" alt="" draggable="false" hidden>`:""}<span class="hs-art-fallback">${item.name.toUpperCase()}</span></div><div class="hs-art-label">${item.name}</div></div>`;}
+function resetHSCourse(){Object.assign(hsState,{section:0,index:0,order:[],earned:0,possible:0,attempts:0,answered:false});renderHSMenu();}
+function renderHSMenu(){setHS(`<section class="hs-intro tech-corners"><p class="section-kicker">COURSE 03 // DIAGNOSTIC TRAINING</p><h1 id="hardware-software-course-title">HARDWARE VS. <span>SOFTWARE</span></h1><p class="hs-lead">Learn to identify hardware and software, diagnose computer problems, and understand the different types of software that keep computer systems working.</p><div class="hs-reminder"><span><b>HARDWARE</b>Physical parts of a computer you can touch.</span><span><b>SOFTWARE</b>Programs and instructions that run on hardware.</span></div><div class="hs-menu-grid">${hsSections.map((s,i)=>`<article><b>${s[0]}</b><div><h2>${s[1]}</h2><p>${s[2]}</p>${courseStatusMarkup(hsState.results[i+1])}<button class="primary-button" type="button" data-hs-section="${i+1}">START TRAINING</button></div></article>`).join("")}</div><div class="intro-actions"><button class="secondary-button" type="button" data-hs-action="department">← BACK TO COMPUTER SYSTEMS</button></div></section>`);}
+function startHSSection(section){hsState.section=section;hsState.index=0;hsState.earned=0;hsState.possible=0;hsState.attempts=0;hsState.answered=false;const pools=[null,hsClassifications,hsTroubleshooting,hsSoftware,hsTickets],counts=[0,12,8,10,8];hsState.order=shuffle(pools[section]).slice(0,counts[section]);renderHSQuestion();}
+function hsHeader(){const total=hsState.order.length;return `<div class="hs-progress"><span>SECTION ${hsState.section} OF 4</span><div class="progress-track" role="progressbar" aria-label="Section progress" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${hsState.index}"><i style="width:${hsState.index/total*100}%"></i></div><span>SCORE ${hsState.earned} / ${hsState.possible}</span></div>`;}
+function renderHSQuestion(){hsState.attempts=0;hsState.answered=false;const q=hsState.order[hsState.index],ticket=hsState.section===4;let title,prompt,choices,content;if(hsState.section===1){title="HARDWARE OR SOFTWARE?";prompt="IS THIS HARDWARE OR SOFTWARE?";choices=["Hardware","Software"];content=hsArt(q);}else if(hsState.section===2){title="TROUBLESHOOTING DETECTIVE";prompt="WHAT TYPE OF PROBLEM IS MOST LIKELY?";choices=["Hardware","Software"];content=`<div class="hs-scenario"><small>DIAGNOSTIC CASE</small><h2>${q.name}</h2><p>${q.prompt}</p></div>`;}else if(hsState.section===3){title="SOFTWARE SPECIALIST";prompt="WHICH TYPE OF SOFTWARE IS DESCRIBED?";choices=hsChoices.slice(2);content=`<div class="hs-scenario"><small>SOFTWARE PROFILE</small><p>${q.prompt}</p></div>`;}else{title="REPAIR TICKET CHALLENGE";prompt=q.question;choices=shuffle([q.answer,...q.distractors]);const number=1042+hsState.index*7;content=`<article class="hs-ticket"><header><small>INCOMING SERVICE REQUEST</small><b>STATUS: OPEN</b></header><h2>REPAIR TICKET #${number}</h2><p><strong>CUSTOMER REPORT:</strong><br>“${q.report}”</p></article>`;}setHS(`${hsHeader()}<header class="hs-question-header"><div><p class="section-kicker">SECTION ${String(hsState.section).padStart(2,"0")}</p><h1>${title}</h1></div><span>${ticket?"TICKET":"QUESTION"} ${hsState.index+1} / ${hsState.order.length}</span></header><div class="hs-training-card">${content}<section class="hs-answer-panel"><p class="answer-prompt">${prompt}</p><div class="hs-answer-grid">${choices.map(c=>`<button type="button" data-hs-answer="${c}">${c.toUpperCase()}</button>`).join("")}</div><div class="feedback-panel hs-feedback" aria-live="assertive" hidden></div><button class="primary-button hs-next" type="button" data-hs-action="next" hidden>${hsState.index===hsState.order.length-1?"VIEW RESULTS":"NEXT"} →</button></section></div>`);}
+function handleHSAnswer(button){if(hsState.answered)return;const q=hsState.order[hsState.index],answer=q.answer;hsState.attempts++;const feedback=hsApp.querySelector(".hs-feedback");feedback.hidden=false;if(button.dataset.hsAnswer!==answer){button.classList.add("is-wrong");feedback.className="feedback-panel hs-feedback is-wrong";feedback.innerHTML=`<strong>NOT QUITE — TRY AGAIN</strong><p>${hsState.section===1?(q.hint||"Ask yourself: Is this a physical object you can touch, or a program or instruction that runs on a computer?"):hsState.section===4?"Review what is working, then identify the physical part or software role involved.":"Use the details in the scenario to identify the most likely category."}</p>`;return;}hsState.answered=true;hsState.possible++;if(hsState.attempts===1)hsState.earned++;button.classList.add("is-correct");hsApp.querySelectorAll("[data-hs-answer]").forEach(b=>b.disabled=true);feedback.className="feedback-panel hs-feedback is-correct";feedback.innerHTML=`<strong>${hsState.section===4?"TICKET RESOLVED.":"CORRECT!"}</strong><p>${q.explanation}</p>`;const next=hsApp.querySelector(".hs-next");next.hidden=false;next.focus();}
+function advanceHS(){hsState.index++;if(hsState.index>=hsState.order.length)renderHSResults();else renderHSQuestion();}
+function renderHSResults(){updateBestResult(hsState.results,hsState.section,hsState.earned,hsState.possible);const percent=Math.round(hsState.earned/hsState.possible*100);const performance=percent>=90?["Diagnostic Expert","Excellent work. You can clearly distinguish hardware, software, and the software tools technicians use."]:percent>=75?["Systems Technician","Strong work. Review the categories that gave you trouble and try the section again."]:["Technician in Training","Keep practicing. Focus on whether the problem involves a physical component, a program, or software that helps hardware communicate."];setHS(`<section class="hs-complete tech-corners"><div class="completion-mark" aria-hidden="true">✓</div><p class="section-kicker">SECTION COMPLETE</p><h1>${hsSections[hsState.section-1][1]}</h1><p class="result-label">First-Attempt Score</p><div class="result-score"><strong>${hsState.earned} / ${hsState.possible}</strong><span>${percent}%</span></div><h2>${performance[0]}</h2><p class="performance-message">${performance[1]}</p><div class="results-actions"><button class="primary-button" type="button" data-hs-action="retry">RETRY SECTION ↻</button><button class="secondary-button" type="button" data-hs-action="menu">RETURN TO HARDWARE &amp; SOFTWARE MENU</button><button class="secondary-button" type="button" data-hs-action="department">RETURN TO COMPUTER SYSTEMS</button></div></section>`);}
+hsApp.addEventListener("click",event=>{const button=event.target.closest("button");if(!button)return;if(button.dataset.hsSection)startHSSection(Number(button.dataset.hsSection));else if(button.dataset.hsAnswer)handleHSAnswer(button);else if(button.dataset.hsAction==="next")advanceHS();else if(button.dataset.hsAction==="retry")startHSSection(hsState.section);else if(button.dataset.hsAction==="menu")renderHSMenu();else if(button.dataset.hsAction==="department")showDepartment();});
+
 functionElements.begin.addEventListener("click", startFunctionTraining);
 functionElements.retry.addEventListener("click", startFunctionTraining);
 functionElements.next.addEventListener("click", advanceFunctionQuestion);
@@ -884,12 +990,14 @@ document.querySelectorAll("[data-home-button]").forEach((button) => button.addEv
 document.querySelectorAll("[data-department-button]").forEach((button) => button.addEventListener("click", () => showDepartment()));
 document.querySelectorAll("[data-parts-button]").forEach((button) => button.addEventListener("click", () => showComputerParts()));
 document.querySelectorAll("[data-input-output-button]").forEach((button) => button.addEventListener("click", () => showInputOutput()));
+document.querySelectorAll("[data-hardware-software-button]").forEach((button) => button.addEventListener("click", () => showHardwareSoftware()));
 
 window.addEventListener("popstate", () => {
   const route = window.location.hash.slice(1);
   if (route === "computer-systems") { showDepartment(false); return; }
   if (route === "computer-parts") { showComputerParts(false); return; }
   if (route === "input-output") { showInputOutput(false); return; }
+  if (route === "hardware-software") { showHardwareSoftware(false); return; }
   const moduleId = route;
   if (academyModules.some((module) => module.id === moduleId)) openModule(moduleId, false);
   else showHome(false);
@@ -900,4 +1008,5 @@ const initialModuleId = window.location.hash.slice(1);
 if (initialModuleId === "computer-systems") showDepartment(false);
 else if (initialModuleId === "computer-parts") showComputerParts(false);
 else if (initialModuleId === "input-output") showInputOutput(false);
+else if (initialModuleId === "hardware-software") showHardwareSoftware(false);
 else if (academyModules.some((module) => module.id === initialModuleId)) openModule(initialModuleId, false);
