@@ -7,6 +7,35 @@ const academyModules = [
   { id: "repair", level: 4, title: "Repair Shop", description: "Diagnose computer problems and choose the right component.", skill: "PROBLEM SOLVING", icon: "04", accent: "#ffb45e", glow: "rgba(255, 180, 94, 0.15)" }
 ];
 
+const digitalSkillsDepartment = {
+  id: "digital-skills",
+  name: "Digital Skills",
+  courses: [
+    {
+      id: "macos-essentials", number: 1, title: "macOS Essentials", subtitle: "Mac Skills Training",
+      description: "Learn to navigate macOS, find what you need, and control your Mac.",
+      sections: [
+        { id: "mac-navigation", number: 1, title: "Mac Navigation", description: "Learn to navigate Finder, the Dock, Menu Bar, folders, and windows." },
+        { id: "spotlight-challenge", number: 2, title: "Spotlight Challenge", description: "Learn to find apps, files, information, and tools quickly." },
+        { id: "system-settings", number: 3, title: "System Settings", description: "Learn where to find and change important Mac settings." },
+        { id: "mac-skills-challenge", number: 4, title: "Mac Skills Challenge", description: "Put your Mac navigation skills together in a final challenge." }
+      ]
+    },
+    {
+      id: "file-management", number: 2, title: "File Management", subtitle: "File System Training",
+      description: "Learn to organize, identify, store, move, and manage files.",
+      sections: [
+        { id: "file-organization", number: 1, title: "File Organization", description: "Build useful folder structures and organize files logically." },
+        { id: "file-type-detective", number: 2, title: "File Type Detective", description: "Use file extensions to identify different types of files." },
+        { id: "local-vs-cloud", number: 3, title: "Local vs. Cloud", description: "Learn where files are stored and when local or cloud storage makes sense." },
+        { id: "file-operations", number: 4, title: "File Operations Challenge", description: "Practice moving, copying, uploading, downloading, and sharing files." }
+      ]
+    }
+  ]
+};
+
+let activeDigitalCourseId = digitalSkillsDepartment.courses[0].id;
+
 const computerPartsResults = {};
 
 function updateBestResult(results, sectionId, earned, possible) {
@@ -109,8 +138,13 @@ const repairTickets = [
 ];
 
 const screens = {
+  "spotlight-challenge": document.querySelector('[data-screen="spotlight-challenge"]'),
   home: document.querySelector('[data-screen="home"]'),
   department: document.querySelector('[data-screen="department"]'),
+  "digital-skills": document.querySelector('[data-screen="digital-skills"]'),
+  "digital-course": document.querySelector('[data-screen="digital-course"]'),
+  "digital-placeholder": document.querySelector('[data-screen="digital-placeholder"]'),
+  "mac-navigation": document.querySelector('[data-screen="mac-navigation"]'),
   parts: document.querySelector('[data-screen="parts"]'),
   "input-output": document.querySelector('[data-screen="input-output"]'),
   "hardware-software": document.querySelector('[data-screen="hardware-software"]'),
@@ -224,6 +258,82 @@ function showScreen(screenName) {
   Object.entries(screens).forEach(([name, screen]) => screen.classList.toggle("is-active", name === screenName));
   window.scrollTo({ top: 0, behavior: "smooth" });
   document.querySelector("#main-content").focus({ preventScroll: true });
+}
+
+function getDigitalCourse(courseId) {
+  return digitalSkillsDepartment.courses.find((course) => course.id === courseId);
+}
+
+function findDigitalSection(sectionId) {
+  for (const course of digitalSkillsDepartment.courses) {
+    const section = course.sections.find((item) => item.id === sectionId);
+    if (section) return { course, section };
+  }
+  return null;
+}
+
+function renderDigitalDepartment() {
+  document.querySelector("#digital-course-grid").innerHTML = digitalSkillsDepartment.courses.map((course) => `
+    <article class="course-card is-new">
+      <div class="course-card-heading"><span class="course-number">COURSE ${String(course.number).padStart(2, "0")}</span><span class="course-status">NEW</span></div>
+      <div class="digital-course-glyph" aria-hidden="true">${course.number === 1 ? "⌘" : "//"}</div>
+      <h2>${course.title}</h2><p>${course.description}</p>
+      <button class="primary-button" type="button" data-digital-course="${course.id}">ENTER COURSE <span aria-hidden="true">&rarr;</span></button>
+    </article>`).join("");
+}
+
+function showDigitalSkills(updateHistory = true) {
+  document.title = "Digital Skills Department | Repair Academy";
+  if (updateHistory) history.pushState({ screen: "digital-skills" }, "", "#digital-skills");
+  renderDigitalDepartment();
+  showScreen("digital-skills");
+}
+
+function showDigitalCourse(courseId, updateHistory = true) {
+  const course = getDigitalCourse(courseId);
+  if (!course) { showDigitalSkills(updateHistory); return; }
+  activeDigitalCourseId = course.id;
+  document.title = `${course.title} | Repair Academy`;
+  if (updateHistory) history.pushState({ screen: "digital-course", courseId }, "", `#${course.id}`);
+  document.querySelector("#digital-course-label").textContent = `COURSE // ${String(course.number).padStart(2, "0")}`;
+  document.querySelector("#digital-course-location").innerHTML = `REPAIR ACADEMY <span>/</span> DIGITAL SKILLS <span>/</span> ${course.title.toUpperCase()}`;
+  document.querySelector("#digital-course-kicker").textContent = `COURSE ${String(course.number).padStart(2, "0")} // DEPARTMENT 02`;
+  document.querySelector("#digital-course-title").textContent = course.title;
+  document.querySelector("#digital-course-subtitle").textContent = course.subtitle;
+  document.querySelector("#digital-course-description").textContent = course.description;
+  document.querySelector("#digital-section-grid").innerHTML = course.sections.map((section) => `
+    <button class="digital-section-card" type="button" data-digital-section="${section.id}" aria-label="Open Section ${section.number}: ${section.title}">
+      <span class="digital-section-number">${String(section.number).padStart(2, "0")}</span>
+      <span class="digital-section-copy"><span class="course-status">NEW</span><strong>${section.title}</strong><span>${section.description}</span></span>
+      <span class="card-arrow" aria-hidden="true">&rarr;</span>
+    </button>`).join("");
+  showScreen("digital-course");
+}
+
+function showDigitalPlaceholder(sectionId, updateHistory = true) {
+  if (sectionId === "spotlight-challenge") { showSpotlightChallenge(updateHistory); return; }
+  const match = findDigitalSection(sectionId);
+  if (!match) { showDigitalSkills(updateHistory); return; }
+  const { course, section } = match;
+  activeDigitalCourseId = course.id;
+  document.title = `${section.title} | Repair Academy`;
+  if (updateHistory) history.pushState({ screen: "digital-placeholder", sectionId }, "", `#${section.id}`);
+  const sectionNumber = String(section.number).padStart(2, "0");
+  document.querySelector("#digital-section-label").textContent = `SECTION // ${sectionNumber}`;
+  document.querySelector("#digital-placeholder-location").innerHTML = `REPAIR ACADEMY <span>/</span> DIGITAL SKILLS <span>/</span> ${course.title.toUpperCase()} <span>/</span> ${section.title.toUpperCase()}`;
+  document.querySelector("#digital-placeholder-number").textContent = sectionNumber;
+  document.querySelector("#digital-placeholder-course").textContent = `COURSE ${String(course.number).padStart(2, "0")} // ${course.title.toUpperCase()} // SECTION ${sectionNumber}`;
+  document.querySelector("#digital-placeholder-title").textContent = section.title;
+  document.querySelector("#digital-placeholder-description").textContent = section.description;
+  showScreen("digital-placeholder");
+}
+
+function showMacNavigation(updateHistory = true) {
+  activeDigitalCourseId = "macos-essentials";
+  document.title = "Mac Navigation | Repair Academy";
+  if (updateHistory) history.pushState({ screen: "mac-navigation" }, "", "#mac-navigation");
+  renderMacNavigationIntro();
+  showScreen("mac-navigation");
 }
 
 function showIdentifyView(viewName) {
@@ -942,6 +1052,72 @@ function advanceHS(){hsState.index++;if(hsState.index>=hsState.order.length)rend
 function renderHSResults(){updateBestResult(hsState.results,hsState.section,hsState.earned,hsState.possible);const percent=Math.round(hsState.earned/hsState.possible*100);const performance=percent>=90?["Diagnostic Expert","Excellent work. You can clearly distinguish hardware, software, and the software tools technicians use."]:percent>=75?["Systems Technician","Strong work. Review the categories that gave you trouble and try the section again."]:["Technician in Training","Keep practicing. Focus on whether the problem involves a physical component, a program, or software that helps hardware communicate."];setHS(`<section class="hs-complete tech-corners"><div class="completion-mark" aria-hidden="true">✓</div><p class="section-kicker">SECTION COMPLETE</p><h1>${hsSections[hsState.section-1][1]}</h1><p class="result-label">First-Attempt Score</p><div class="result-score"><strong>${hsState.earned} / ${hsState.possible}</strong><span>${percent}%</span></div><h2>${performance[0]}</h2><p class="performance-message">${performance[1]}</p><div class="results-actions"><button class="primary-button" type="button" data-hs-action="retry">RETRY SECTION ↻</button><button class="secondary-button" type="button" data-hs-action="menu">RETURN TO HARDWARE &amp; SOFTWARE MENU</button><button class="secondary-button" type="button" data-hs-action="department">RETURN TO COMPUTER SYSTEMS</button></div></section>`);}
 hsApp.addEventListener("click",event=>{const button=event.target.closest("button");if(!button)return;if(button.dataset.hsSection)startHSSection(Number(button.dataset.hsSection));else if(button.dataset.hsAnswer)handleHSAnswer(button);else if(button.dataset.hsAction==="next")advanceHS();else if(button.dataset.hsAction==="retry")startHSSection(hsState.section);else if(button.dataset.hsAction==="menu")renderHSMenu();else if(button.dataset.hsAction==="department")showDepartment();});
 
+const macNavigationTasks = [
+  { id:"finder", instruction:"OPEN FINDER", prompt:"Use the Dock to open Finder.", hint:"Look at the Dock at the bottom of the screen.", feedback:"Finder is the Mac application used to browse files, folders, applications, and storage locations." },
+  { id:"sidebar", instruction:"OPEN DOWNLOADS", prompt:"Use the Finder Sidebar to open the Downloads folder.", hint:"The Sidebar is on the left side of a Finder window.", feedback:"The Finder Sidebar provides quick access to common locations such as Applications, Documents, and Downloads." },
+  { id:"folder", instruction:"OPEN COMPUTER CLASS", prompt:"Navigate to Documents, then open the Computer Class folder.", hint:"Start with Documents.", feedback:"Folders help organize files into logical groups and can contain additional folders." },
+  { id:"view", instruction:"CHANGE THE VIEW", prompt:"Switch Finder to List View.", hint:"Look in Finder's toolbar for view controls.", feedback:"Finder view controls change how files and folders are displayed without changing the files themselves." },
+  { id:"calculator", instruction:"OPEN CALCULATOR", prompt:"Use the Dock to open Calculator.", hint:"Applications can be opened from the Dock.", feedback:"The Dock provides quick access to applications you use frequently." },
+  { id:"menubar", instruction:"FIND THE MENU BAR", prompt:"Click the Menu Bar.", hint:"Look across the very top of the simulated Mac screen.", feedback:"The Menu Bar runs across the top of the screen and contains commands for the active application." },
+  { id:"switch", instruction:"SWITCH TO FINDER", prompt:"Calculator is currently active. Use the Dock to switch back to Finder.", hint:"You can select an open application from the Dock.", feedback:"Clicking an open application's Dock icon can bring that application to the front." },
+  { id:"quit", instruction:"QUIT CALCULATOR", prompt:"Switch to Calculator, then quit the application.", hint:"Look at the application's name in the Menu Bar.", feedback:"Closing a window and quitting an application are different. Quit ends the application completely." }
+];
+
+const macApp = document.querySelector("#mac-navigation-app");
+const macState = { view:"intro", task:0, incorrect:0, hints:0, hintVisible:false, completed:false, finderOpen:false, finderLocation:"Documents", finderView:"icon", folderStep:false, calculatorRunning:false, calculatorVisible:false, activeApp:"Finder", appMenuOpen:false, message:"" };
+const macLocations = {
+  Applications:[{name:"Calculator",type:"app"},{name:"Notes",type:"app"},{name:"Safari",type:"app"},{name:"System Settings",type:"app"}],
+  Desktop:[{name:"Class Schedule",type:"file"},{name:"Pictures",type:"folder"}],
+  Documents:[{name:"School",type:"folder"},{name:"Computer Class",type:"folder"},{name:"Assignments",type:"folder"},{name:"Pictures",type:"folder"}],
+  Downloads:[{name:"Setup_Guide.pdf",type:"file"},{name:"Class_Image.png",type:"file"}],
+  "Computer Class":[{name:"Week 3 Notes",type:"file"},{name:"Mac Practice",type:"folder"}]
+};
+
+function resetMacState(view="training") {
+  Object.assign(macState,{view,task:0,incorrect:0,hints:0,hintVisible:false,completed:false,finderOpen:false,finderLocation:"Documents",finderView:"icon",folderStep:false,calculatorRunning:false,calculatorVisible:false,activeApp:"Finder",appMenuOpen:false,message:""});
+}
+function renderMacNavigationIntro() {
+  resetMacState("intro");
+  macApp.innerHTML=`<section class="mac-intro tech-corners"><div class="training-badge" aria-hidden="true">01</div><p class="section-kicker">SECTION 01</p><h1 id="mac-navigation-title">MAC NAVIGATION</h1><p class="training-subtitle">Finder &amp; Desktop Training</p><p class="intro-instruction">Learn how to navigate your Mac using Finder, the Dock, Menu Bar, folders, and applications.</p><div class="mac-task-count"><strong>8</strong><span>TRAINING TASKS</span></div><div class="intro-actions"><button class="primary-button" type="button" data-mac-action="begin">BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button><button class="secondary-button" type="button" data-mac-action="course">RETURN TO macOS ESSENTIALS</button></div></section>`;
+}
+function startMacTraining(){resetMacState();renderMacTraining();}
+function macInitialTaskState(){
+  macState.hintVisible=false;macState.completed=false;macState.message="";macState.appMenuOpen=false;
+  if(macState.task===1){macState.finderOpen=true;macState.finderLocation="Documents";macState.activeApp="Finder";}
+  if(macState.task===2){macState.finderOpen=true;macState.finderLocation="Downloads";macState.finderView="icon";macState.folderStep=false;macState.activeApp="Finder";}
+  if(macState.task===3){macState.finderOpen=true;macState.finderLocation="Computer Class";macState.finderView="icon";macState.activeApp="Finder";}
+  if(macState.task===4){macState.finderOpen=true;macState.calculatorVisible=false;macState.activeApp="Finder";}
+  if(macState.task===5||macState.task===6){macState.finderOpen=true;macState.calculatorRunning=true;macState.calculatorVisible=true;macState.activeApp="Calculator";}
+  if(macState.task===7){macState.finderOpen=true;macState.calculatorRunning=true;macState.calculatorVisible=true;macState.activeApp="Calculator";}
+}
+function macMenuMarkup(){const app=macState.activeApp;return `<div class="mac-menu-bar ${macState.task===5?'is-target':''}" data-mac-region="menubar"><button type="button" class="mac-app-menu" data-mac-action="app-menu" aria-expanded="${macState.appMenuOpen}">${app}</button><span class="mac-menu-items" aria-hidden="true">File&nbsp;&nbsp; Edit&nbsp;&nbsp; View&nbsp;&nbsp; Go&nbsp;&nbsp; Window&nbsp;&nbsp; Help</span><span class="mac-status-items" aria-label="Wi-Fi, battery, and time">Wi-Fi&nbsp; Battery 82%&nbsp; 10:24</span>${macState.appMenuOpen?`<div class="mac-app-menu-popover"><button type="button" data-mac-action="noop">About ${app}</button><button type="button" data-mac-action="noop">Settings...</button><button type="button" data-mac-action="noop">Hide ${app}</button>${app==="Calculator"?'<button type="button" data-mac-action="quit-calculator">Quit Calculator</button>':''}</div>`:""}</div>`;}
+function macSidebarMarkup(){return `<aside class="mac-sidebar" aria-label="Finder Sidebar"><strong>Favorites</strong>${["Applications","Desktop","Documents","Downloads"].map(name=>`<button type="button" data-mac-location="${name}" class="${macState.finderLocation===name?'is-selected':''}" aria-pressed="${macState.finderLocation===name}"><span aria-hidden="true">${name==="Applications"?'A':name==="Downloads"?'D':'F'}</span>${name}</button>`).join("")}<button type="button" data-mac-location="iCloud Drive"><span aria-hidden="true">C</span>iCloud Drive</button></aside>`;}
+function macFinderMarkup(){if(!macState.finderOpen)return "";const items=macLocations[macState.finderLocation]||[];return `<section class="mac-window mac-finder ${macState.activeApp==='Finder'?'is-active':''}" aria-label="Finder window"><header class="mac-window-title"><span class="mac-window-controls" aria-label="Window controls"><i></i><i></i><i></i></span><strong>${macState.finderLocation}</strong></header><div class="mac-finder-toolbar"><span aria-hidden="true">&lsaquo; &nbsp;&rsaquo;</span><span class="mac-view-controls" aria-label="Finder view controls"><button type="button" data-mac-view="icon" class="${macState.finderView==='icon'?'is-selected':''}" aria-label="Icon View" title="Icon View">GRID</button><button type="button" data-mac-view="list" class="${macState.finderView==='list'?'is-selected':''}" aria-label="List View" title="List View">LIST</button></span></div><div class="mac-finder-body">${macSidebarMarkup()}<div class="mac-content mac-${macState.finderView}-view" aria-label="${macState.finderLocation} contents">${items.map(item=>`<button type="button" data-mac-item="${item.name}" class="mac-file mac-${item.type==='file'?'document':item.type}"><span aria-hidden="true">${item.type==='folder'?'DIR':item.type==='app'?'APP':'DOC'}</span><b>${item.name}</b>${macState.finderView==='list'?`<small>${item.type==='folder'?'Folder':item.type==='app'?'Application':'Document'}</small>`:''}</button>`).join("")||'<p class="mac-empty">No items</p>'}</div></div></section>`;}
+function macCalculatorMarkup(){if(!macState.calculatorRunning||!macState.calculatorVisible)return "";return `<section class="mac-window mac-calculator ${macState.activeApp==='Calculator'?'is-active':''}" aria-label="Calculator window"><header class="mac-window-title"><span class="mac-window-controls"><button type="button" data-mac-action="close-calculator" aria-label="Close Calculator window"></button><i></i><i></i></span><strong>Calculator</strong></header><div class="mac-calc-display">0</div><div class="mac-calc-keys" aria-hidden="true">${["AC","+/-","%","/","7","8","9","x","4","5","6","-","1","2","3","+","0",".","="].map(x=>`<span>${x}</span>`).join("")}</div></section>`;}
+function macDockMarkup(){return `<nav class="mac-dock" aria-label="Dock">${[["Finder","F"],["Safari","S"],["Notes","N"],["Calculator","+"],["System Settings","SET"]].map(([name,glyph])=>{const running=name==="Finder"?macState.finderOpen:name==="Calculator"?macState.calculatorRunning:false;return `<button type="button" data-mac-app="${name}" class="mac-dock-app mac-icon-${name.toLowerCase().replace(' ','-')} ${macState.activeApp===name?'is-active':''}" aria-label="${name}${running?', running':''}" title="${name}"><span aria-hidden="true">${glyph}</span><small>${name}</small>${running?'<i aria-hidden="true"></i>':''}</button>`;}).join("")}</nav>`;}
+function renderMacTraining(){const task=macNavigationTasks[macState.task];const progress=(macState.completed?macState.task+1:macState.task)/8*100;macApp.innerHTML=`<section class="mac-training"><div class="mac-task-header"><div><p class="section-kicker">SECTION 01 // GUIDED PRACTICE</p><h1 id="mac-navigation-title">${task.instruction}</h1><p id="mac-task-instruction">${task.prompt}</p></div><div class="mac-progress-copy"><strong>TASK ${macState.task+1} / 8</strong><span>Incorrect Interactions: ${macState.incorrect}</span></div></div><div class="progress-track mac-progress" role="progressbar" aria-label="Mac Navigation progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="${macState.completed?macState.task+1:macState.task}"><span style="width:${progress}%"></span></div><div class="mac-help-row"><button type="button" class="secondary-button mac-hint-button" data-mac-action="hint" aria-expanded="${macState.hintVisible}">HINT</button><p class="mac-hint" ${macState.hintVisible?'':'hidden'}>${task.hint}</p></div><div class="mac-desktop" aria-describedby="mac-task-instruction">${macMenuMarkup()}<div class="mac-wallpaper"><div class="mac-desktop-file" aria-hidden="true"><span>?</span>Class Files</div>${macFinderMarkup()}${macCalculatorMarkup()}</div>${macDockMarkup()}</div><div class="mac-feedback ${macState.completed?'is-complete':''}" role="status" aria-live="polite">${macState.completed?`<div><strong>TASK COMPLETE</strong><p>${task.feedback}</p></div><button class="primary-button" type="button" data-mac-action="next">${macState.task===7?'FINISH TRAINING':'NEXT TASK'} <span aria-hidden="true">&rarr;</span></button>`:macState.message?`<strong>${macState.message}</strong>`:'<span>Complete the task in the practice Mac.</span>'}</div></section>`;}
+function macWrong(message="NOT QUITE - TRY AGAIN"){macState.incorrect++;macState.message=message;macState.appMenuOpen=false;renderMacTraining();}
+function macComplete(){if(macState.completed)return;macState.completed=true;macState.message="";macState.appMenuOpen=false;renderMacTraining();const next=macApp.querySelector('[data-mac-action="next"]');if(next)next.focus();}
+function advanceMacTask(){if(macState.task===7){renderMacComplete();return;}macState.task++;macInitialTaskState();renderMacTraining();}
+function renderMacComplete(){macState.view="complete";macApp.innerHTML=`<section class="mac-complete tech-corners"><div class="completion-mark" aria-hidden="true">&#10003;</div><p class="section-kicker">SECTION COMPLETE</p><h1 id="mac-navigation-title">MAC NAVIGATION</h1><div class="result-score"><strong>8 / 8</strong><span>TASKS COMPLETE</span></div><p class="series-complete">MAC NAVIGATION TRAINING COMPLETE</p><p>You practiced Finder, the Sidebar, folders, Finder views, the Dock, Menu Bar, app switching, and quitting applications.</p><p class="incorrect-total">Incorrect Interactions: <strong>${macState.incorrect}</strong></p><div class="results-actions"><button class="primary-button" type="button" data-mac-action="retry">RETRY SECTION</button><button class="secondary-button" type="button" data-mac-action="course">RETURN TO macOS ESSENTIALS</button><button class="secondary-button" type="button" data-mac-action="digital">DIGITAL SKILLS</button></div></section>`;}
+function handleMacDock(app){
+  if(macState.completed)return;
+  if(app==="Finder"){macState.finderOpen=true;macState.activeApp="Finder";macState.appMenuOpen=false;if(macState.task===0||macState.task===6){macComplete();return;}if(macState.task===7){macState.message="SWITCH TO CALCULATOR, THEN USE ITS APPLICATION MENU";renderMacTraining();return;}macWrong("THAT ACTION DOES NOT COMPLETE THIS TASK - TRY AGAIN");return;}
+  if(app==="Calculator"){macState.calculatorRunning=true;macState.calculatorVisible=true;macState.activeApp="Calculator";macState.appMenuOpen=false;if(macState.task===4){macComplete();return;}if(macState.task===7){macState.message="CALCULATOR ACTIVE - USE THE CALCULATOR MENU TO QUIT";renderMacTraining();return;}macWrong("NOT QUITE - TRY AGAIN");return;}
+  macState.activeApp=app;macWrong(macState.task===0?"THAT IS NOT FINDER - TRY AGAIN":"NOT QUITE - TRY AGAIN");
+}
+function handleMacLocation(location){macState.finderLocation=location;macState.activeApp="Finder";if(macState.task===1&&location==="Downloads"){macComplete();return;}if(macState.task===2&&location==="Documents"){macState.folderStep=true;macState.message="DOCUMENTS OPEN - NOW OPEN COMPUTER CLASS";renderMacTraining();return;}if(macState.task===1||macState.task===2)macWrong("NOT QUITE - KEEP USING THE SIDEBAR");else {macState.message="";renderMacTraining();}}
+function handleMacItem(item){if(macState.task===2&&macState.folderStep&&item==="Computer Class"){macState.finderLocation="Computer Class";macComplete();return;}if(macLocations[item])macState.finderLocation=item;macWrong("NOT QUITE - TRY AGAIN");}
+function handleMacView(view){macState.finderView=view;if(macState.task===3&&view==="list"){macComplete();return;}if(macState.task===3)macWrong("THAT VIEW WORKS, BUT THE TASK ASKS FOR LIST VIEW");else renderMacTraining();}
+function handleMacAction(action){
+  if(action==="begin"){startMacTraining();return;}if(action==="course"){showDigitalCourse("macos-essentials");return;}if(action==="digital"){showDigitalSkills();return;}if(action==="retry"){startMacTraining();return;}if(action==="next"){advanceMacTask();return;}if(action==="hint"){if(!macState.hintVisible)macState.hints++;macState.hintVisible=!macState.hintVisible;renderMacTraining();return;}
+  if(action==="app-menu"){if(macState.task===5){macComplete();return;}macState.appMenuOpen=!macState.appMenuOpen;renderMacTraining();return;}
+  if(action==="close-calculator"){macState.calculatorVisible=false;macState.activeApp=macState.finderOpen?"Finder":"Calculator";macState.appMenuOpen=false;if(macState.task===7){macState.message="WINDOW CLOSED - APP STILL RUNNING";renderMacTraining();return;}renderMacTraining();return;}
+  if(action==="quit-calculator"){if(macState.task===7&&macState.activeApp==="Calculator"){macState.calculatorRunning=false;macState.calculatorVisible=false;macState.activeApp="Finder";macComplete();return;}macWrong();return;}
+  if(action==="noop")macWrong("THAT COMMAND DOES NOT QUIT THE APP - TRY AGAIN");
+}
+macApp.addEventListener("click",event=>{const menu=event.target.closest(".mac-menu-bar");if(macState.view==="training"&&macState.task===5&&menu){macComplete();return;}const button=event.target.closest("button");if(!button)return;if(button.dataset.macApp)handleMacDock(button.dataset.macApp);else if(button.dataset.macLocation)handleMacLocation(button.dataset.macLocation);else if(button.dataset.macItem)handleMacItem(button.dataset.macItem);else if(button.dataset.macView)handleMacView(button.dataset.macView);else if(button.dataset.macAction)handleMacAction(button.dataset.macAction);});
+
 functionElements.begin.addEventListener("click", startFunctionTraining);
 functionElements.retry.addEventListener("click", startFunctionTraining);
 functionElements.next.addEventListener("click", advanceFunctionQuestion);
@@ -991,9 +1167,25 @@ document.querySelectorAll("[data-department-button]").forEach((button) => button
 document.querySelectorAll("[data-parts-button]").forEach((button) => button.addEventListener("click", () => showComputerParts()));
 document.querySelectorAll("[data-input-output-button]").forEach((button) => button.addEventListener("click", () => showInputOutput()));
 document.querySelectorAll("[data-hardware-software-button]").forEach((button) => button.addEventListener("click", () => showHardwareSoftware()));
+document.querySelectorAll("[data-academy-button]").forEach((button) => button.addEventListener("click", () => showHome()));
+document.querySelectorAll("[data-digital-skills-button]").forEach((button) => button.addEventListener("click", () => showDigitalSkills()));
+document.querySelectorAll("[data-return-course]").forEach((button) => button.addEventListener("click", () => showDigitalCourse(activeDigitalCourseId)));
+document.querySelectorAll("[data-return-macos]").forEach((button) => button.addEventListener("click", () => showDigitalCourse("macos-essentials")));
+document.querySelector("#digital-course-grid").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-digital-course]");
+  if (button) showDigitalCourse(button.dataset.digitalCourse);
+});
+document.querySelector("#digital-section-grid").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-digital-section]");
+  if (button) button.dataset.digitalSection === "mac-navigation" ? showMacNavigation() : showDigitalPlaceholder(button.dataset.digitalSection);
+});
 
 window.addEventListener("popstate", () => {
   const route = window.location.hash.slice(1);
+  if (route === "digital-skills") { showDigitalSkills(false); return; }
+  if (getDigitalCourse(route)) { showDigitalCourse(route, false); return; }
+  if (route === "mac-navigation") { showMacNavigation(false); return; }
+  if (findDigitalSection(route)) { showDigitalPlaceholder(route, false); return; }
   if (route === "computer-systems") { showDepartment(false); return; }
   if (route === "computer-parts") { showComputerParts(false); return; }
   if (route === "input-output") { showInputOutput(false); return; }
@@ -1005,7 +1197,11 @@ window.addEventListener("popstate", () => {
 
 renderModuleCards();
 const initialModuleId = window.location.hash.slice(1);
-if (initialModuleId === "computer-systems") showDepartment(false);
+if (initialModuleId === "digital-skills") showDigitalSkills(false);
+else if (getDigitalCourse(initialModuleId)) showDigitalCourse(initialModuleId, false);
+else if (initialModuleId === "mac-navigation") showMacNavigation(false);
+else if (findDigitalSection(initialModuleId)) showDigitalPlaceholder(initialModuleId, false);
+else if (initialModuleId === "computer-systems") showDepartment(false);
 else if (initialModuleId === "computer-parts") showComputerParts(false);
 else if (initialModuleId === "input-output") showInputOutput(false);
 else if (initialModuleId === "hardware-software") showHardwareSoftware(false);

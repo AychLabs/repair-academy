@@ -7,6 +7,7 @@
   <meta name="description" content="PC Repair Academy — learn the essential components inside a computer.">
   <title>Repair Academy</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="spotlight.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -39,22 +40,107 @@
       <div class="department-grid">
         <article class="department-card tech-corners">
           <div class="department-icon" aria-hidden="true">CS</div>
-          <div class="department-copy"><p class="section-kicker">ACTIVE DEPARTMENT</p><h2>COMPUTER SYSTEMS</h2><p>Learn computer hardware, components, input/output systems, and troubleshooting.</p><span class="course-count">3 Courses Available</span></div>
+          <div class="department-copy"><p class="section-kicker">DEPARTMENT 01</p><h2>COMPUTER SYSTEMS</h2><p>Learn computer hardware, components, input/output systems, and troubleshooting.</p><span class="course-count">3 Courses Available</span></div>
           <button class="primary-button department-button" type="button" data-department-button>ENTER DEPARTMENT <span aria-hidden="true">&rarr;</span></button>
         </article>
+        <article class="department-card digital-card tech-corners">
+          <div class="department-icon" aria-hidden="true">DS</div>
+          <div class="department-copy"><p class="section-kicker">DEPARTMENT 02</p><h2>DIGITAL SKILLS</h2><p>Navigate your Mac, manage files, organize information, and work efficiently.</p><span class="course-count">2 Courses Available</span></div>
+          <button class="primary-button department-button" type="button" data-digital-skills-button>ENTER DEPARTMENT <span aria-hidden="true">&rarr;</span></button>
+        </article>
       </div>
-      <p class="expansion-note">More departments will become available as training expands.</p>
+      <p class="expansion-note">Select a department to access its training courses.</p>
     </section>
 
     <section class="screen department-screen" id="computer-systems" data-screen="department" aria-labelledby="department-title">
       <div class="department-shell">
         <button class="back-link" type="button" data-home-button><span aria-hidden="true">&larr;</span> BACK TO ACADEMY</button>
-        <header class="department-header"><p class="section-kicker">DEPARTMENT // CS</p><h1 id="department-title">COMPUTER SYSTEMS <span>DEPARTMENT</span></h1><p>Learn how computer hardware works, how information moves through a system, and how technicians diagnose problems.</p></header>
+        <header class="department-header"><p class="section-kicker">DEPARTMENT 01 // COMPUTER SYSTEMS</p><h1 id="department-title">COMPUTER SYSTEMS <span>DEPARTMENT</span></h1><p>Learn how computer hardware works, how information moves through a system, and how technicians diagnose problems.</p></header>
         <div class="course-grid">
           <article class="course-card is-available"><div class="course-card-heading"><span class="course-number">COURSE 01</span><span class="course-status">AVAILABLE</span></div><h2>Computer Parts Training</h2><p>Identify important computer components and learn where they belong inside a computer system.</p><button class="primary-button" type="button" data-parts-button>ENTER TRAINING <span aria-hidden="true">&rarr;</span></button></article>
           <article class="course-card is-available"><div class="course-card-heading"><span class="course-number">COURSE 02</span><span class="course-status">AVAILABLE</span></div><h2>Input &amp; Output Systems</h2><p>Practice identifying input and output devices and follow how information travels through computer systems.</p><button class="primary-button" type="button" data-input-output-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
           <article class="course-card is-new" aria-labelledby="hardware-software-title"><div class="course-card-heading"><span class="course-number">COURSE 03</span><span class="course-status">NEW</span></div><h2 id="hardware-software-title">Hardware vs. Software</h2><p>Diagnose computer problems and determine whether the cause involves hardware, software, or the tools that connect them.</p><button class="primary-button" type="button" data-hardware-software-button>BEGIN TRAINING <span aria-hidden="true">&rarr;</span></button></article>
         </div>
+      </div>
+    </section>
+
+    <section class="screen department-screen digital-skills-screen" id="digital-skills" data-screen="digital-skills" aria-labelledby="digital-skills-title">
+      <div class="department-shell">
+        <button class="back-link" type="button" data-academy-button><span aria-hidden="true">&larr;</span> BACK TO REPAIR ACADEMY</button>
+        <p class="location-line" aria-label="Current location">REPAIR ACADEMY <span>/</span> DIGITAL SKILLS</p>
+        <header class="department-header">
+          <p class="section-kicker">DEPARTMENT 02 // DIGITAL SKILLS</p>
+          <h1 id="digital-skills-title">DIGITAL SKILLS <span>DEPARTMENT</span></h1>
+          <p class="department-subtitle">Master the tools you use every day.</p>
+          <p>Learn to navigate your Mac, manage files, organize information, and work efficiently.</p>
+        </header>
+        <div class="course-grid digital-course-grid" id="digital-course-grid"></div>
+      </div>
+    </section>
+
+    <section class="screen digital-course-screen" id="digital-course" data-screen="digital-course" aria-labelledby="digital-course-title">
+      <div class="digital-shell">
+        <div class="digital-topbar">
+          <button class="back-link" type="button" data-digital-skills-button><span aria-hidden="true">&larr;</span> BACK TO DIGITAL SKILLS</button>
+          <span class="terminal-label" id="digital-course-label">COURSE // 01</span>
+        </div>
+        <p class="location-line" id="digital-course-location" aria-label="Current location"></p>
+        <header class="digital-course-header">
+          <p class="section-kicker" id="digital-course-kicker"></p>
+          <h1 id="digital-course-title"></h1>
+          <p class="digital-course-subtitle" id="digital-course-subtitle"></p>
+          <p class="digital-course-description" id="digital-course-description"></p>
+        </header>
+        <div class="digital-section-heading">
+          <div><p class="section-kicker">TRAINING PROGRAM</p><h2>Select a training section</h2></div>
+          <p class="module-count"><span>04</span> SECTIONS AVAILABLE</p>
+        </div>
+        <div class="digital-section-grid" id="digital-section-grid"></div>
+      </div>
+    </section>
+
+    <section class="screen module-screen digital-placeholder-screen" id="digital-placeholder" data-screen="digital-placeholder" aria-labelledby="digital-placeholder-title">
+      <div class="module-shell">
+        <div class="digital-topbar">
+          <button class="back-link" type="button" data-return-course><span aria-hidden="true">&larr;</span> RETURN TO COURSE</button>
+          <span class="terminal-label" id="digital-section-label">SECTION // 01</span>
+        </div>
+        <p class="location-line" id="digital-placeholder-location" aria-label="Current location"></p>
+        <div class="module-panel digital-placeholder-panel">
+          <div class="module-icon" id="digital-placeholder-number" aria-hidden="true">01</div>
+          <p class="section-kicker">DEPARTMENT 02 // DIGITAL SKILLS</p>
+          <p class="placeholder-course-name" id="digital-placeholder-course"></p>
+          <h1 id="digital-placeholder-title"></h1>
+          <p class="module-description" id="digital-placeholder-description"></p>
+          <p class="coming-soon"><span class="status-dot" aria-hidden="true"></span> TRAINING MODULE COMING SOON</p>
+          <div class="placeholder-actions">
+            <button class="primary-button" type="button" data-return-course>RETURN TO COURSE</button>
+            <button class="secondary-button" type="button" data-digital-skills-button>BACK TO DIGITAL SKILLS</button>
+            <button class="secondary-button" type="button" data-academy-button>REPAIR ACADEMY</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen mac-navigation-screen" id="mac-navigation-course" data-screen="mac-navigation" aria-labelledby="mac-navigation-title" aria-live="polite">
+      <div class="mac-navigation-shell">
+        <div class="digital-topbar">
+          <button class="back-link" type="button" data-return-macos><span aria-hidden="true">&larr;</span> RETURN TO macOS ESSENTIALS</button>
+          <span class="terminal-label">SECTION // 01</span>
+        </div>
+        <p class="location-line" aria-label="Current location">REPAIR ACADEMY <span>/</span> DIGITAL SKILLS <span>/</span> macOS ESSENTIALS <span>/</span> MAC NAVIGATION</p>
+        <div id="mac-navigation-app"></div>
+      </div>
+    </section>
+
+    <section class="screen mac-navigation-screen" id="spotlight-course" data-screen="spotlight-challenge" aria-labelledby="spotlight-title">
+      <div class="mac-navigation-shell">
+        <div class="digital-topbar">
+          <button class="back-link" type="button" data-return-macos><span aria-hidden="true">&larr;</span> RETURN TO macOS ESSENTIALS</button>
+          <span class="terminal-label">SECTION // 02</span>
+        </div>
+        <p class="location-line">REPAIR ACADEMY <span>/</span> DIGITAL SKILLS <span>/</span> macOS ESSENTIALS <span>/</span> SPOTLIGHT CHALLENGE</p>
+        <div id="spotlight-app"></div>
       </div>
     </section>
 
@@ -355,6 +441,7 @@
     <span>TECHNICAL TRAINING CENTER // V1.0</span>
   </footer>
 
+  <script src="spotlight.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
