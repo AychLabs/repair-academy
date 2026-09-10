@@ -11,3 +11,5 @@
 #spotlight-course .mac-task-header h1{font-size:clamp(1.2rem,2.1vw,1.9rem)}#spotlight-course .mac-help-row{height:auto;min-height:34px}#spotlight-course .mac-feedback{min-height:62px}
 @media(max-width:760px){.spotlight-preview{left:5%;width:90%}.spotlight-panel{max-height:calc(100% - 108px)}#spotlight-course .mac-task-header{gap:8px}.spotlight-search-row input{font-size:17px}}
 .spotlight-panel{background:#f5f7fb}.spotlight-menu-search{min-height:0;padding:0;line-height:1}.spotlight-search-row button{min-height:0}
+
+.spotlight-menu-search{display:inline-flex;align-items:center;justify-content:center;gap:4px;width:auto;padding:0 7px;font-size:11px!important}.spotlight-menu-search>span:first-child{font-size:24px}.spotlight-menu-search:hover{background:rgba(80,100,120,.16)}.spotlight-shortcut-note{display:block;line-height:1.45}.spotlight-shortcut-note b{display:block;margin-bottom:4px;font-size:11px}

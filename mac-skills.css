@@ -1,0 +1,36 @@
+/* Capstone layout only. Shared Mac, Spotlight and Settings styles remain unchanged. */
+#mac-skills-course .mac-task-header h1{font-size:clamp(1.3rem,2vw,1.8rem)}
+#mac-skills-course .mac-help-row{height:auto;min-height:32px}
+#mac-skills-course .mac-help-row button{padding:5px 12px;font-size:.75rem}
+#mac-skills-course .mac-desktop{height:390px}
+#mac-skills-course .mac-window{top:10px;left:5%;width:80%;height:270px;z-index:3}
+#mac-skills-course .mac-window.is-active{z-index:10}
+#mac-skills-course .mac-finder-body{height:202px}
+#mac-skills-course .mac-file,#mac-skills-course .mac-sidebar button{font-size:13px}
+#mac-skills-course .mac-file[aria-pressed=true]{background:#dceafb;outline:2px solid #276bc3}
+#mac-skills-course .mac-view-controls button{width:auto;min-width:44px;padding:0 7px}
+#mac-skills-course .mac-window-title button{position:absolute;left:8px;border:0;background:#fff;color:#26323d;border-radius:4px;font-size:12px}
+#mac-skills-course .mac-calculator{left:auto;right:6%;width:190px;height:260px}
+#mac-skills-course .mac-calc-keys button{border:0;border-radius:5px;min-height:28px;color:white;background:#55585c;font:15px system-ui}
+#mac-skills-course .msc-preview{left:18%;width:70%}
+.msc-document{padding:18px;overflow:auto;height:235px;font-size:14px}
+.msc-document h2{font-size:19px;margin:0 0 12px}
+.msc-document p{margin:8px 0}
+.msc-checklist{display:flex;flex-wrap:wrap;gap:5px 20px;margin:6px 0;padding:0;list-style:none;font:13px system-ui;color:#ddd6ff}
+.msc-shortcut{margin-left:auto;font:11px system-ui;color:var(--muted)}
+.msc-desktop-files{position:absolute;right:10px;top:10px;width:125px;display:grid;gap:6px}
+.msc-desktop-files .mac-file{padding:5px;color:#182334;background:#ffffffb8;border-radius:5px}
+#mac-skills-course .spotlight-panel{z-index:35;top:42px;max-height:290px;overflow:auto}
+#mac-skills-course .spotlight-result{width:100%;border:0;text-align:left;font:14px system-ui;color:#26323d}
+.msc-rename{position:absolute;z-index:40;left:15%;top:70px;width:70%;padding:18px;background:#f7f7fa;color:#26323d;border:1px solid #8595a7;border-radius:10px;box-shadow:0 10px 50px #17233166;font:14px system-ui}
+.msc-rename input{display:block;width:100%;padding:9px;margin:10px 0;font:16px system-ui}
+.msc-rename button{padding:8px 14px;margin-right:8px}
+.msc-flash{position:absolute;inset:0;z-index:45;pointer-events:none;background:white;animation:msc-flash .45s ease-out forwards}
+@keyframes msc-flash{from{opacity:.8}to{opacity:0}}
+#mac-skills-course .mac-complete{box-shadow:0 0 45px #a38aeb30}
+#mac-skills-course .completion-mark{border:2px solid var(--lime);border-radius:50%;width:65px;height:65px;display:grid;place-items:center;margin:auto;font-size:36px;color:var(--lime)}
+#mac-skills-course :focus-visible{outline:3px solid #bca5ff;outline-offset:3px}
+#mac-skills-course .mac-desktop :focus-visible{outline:3px solid #185bb7;outline-offset:1px}
+#mac-skills-course .mac-feedback{min-height:66px}
+@media(max-width:760px){#mac-skills-course .mac-desktop{height:425px}#mac-skills-course .mac-window{left:2%;width:96%;height:305px}#mac-skills-course .mac-finder-body{height:237px}#mac-skills-course .mac-calculator{left:auto;width:190px}#mac-skills-course .mac-help-row{flex-wrap:wrap}.msc-shortcut{margin-left:0}.msc-rename{left:3%;width:94%}.msc-checklist{display:grid;gap:4px}#mac-skills-course .mac-menu-bar{padding:0 5px;gap:2px}#mac-skills-course .mac-menu-bar button{padding:4px}#mac-skills-course .mac-list-view .mac-file{grid-template-columns:25px 1fr}#mac-skills-course .mac-list-view small{display:none}}
+@media(prefers-reduced-motion:reduce){.msc-flash{animation:none;background:transparent}}

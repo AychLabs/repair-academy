@@ -8,6 +8,8 @@
   <title>Repair Academy</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="spotlight.css">
+  <link rel="stylesheet" href="system-settings.css">
+  <link rel="stylesheet" href="mac-skills.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -133,6 +135,13 @@
       </div>
     </section>
 
+    <section class="screen mac-navigation-screen" id="mac-skills-course" data-screen="mac-skills-challenge" aria-labelledby="mac-skills-title"><div class="mac-navigation-shell"><button class="back-link" type="button" data-return-macos>RETURN TO macOS ESSENTIALS</button><div id="mac-skills-app"></div></div></section>
+    <section class="screen mac-navigation-screen" id="system-settings-course" data-screen="system-settings" aria-labelledby="system-settings-title">
+      <div class="mac-navigation-shell">
+        <button class="back-link" type="button" data-return-macos>← RETURN TO macOS ESSENTIALS</button>
+        <div id="system-settings-app"></div>
+      </div>
+    </section>
     <section class="screen mac-navigation-screen" id="spotlight-course" data-screen="spotlight-challenge" aria-labelledby="spotlight-title">
       <div class="mac-navigation-shell">
         <div class="digital-topbar">
@@ -441,7 +450,9 @@
     <span>TECHNICAL TRAINING CENTER // V1.0</span>
   </footer>
 
+  <script src="system-settings.js"></script>
   <script src="spotlight.js"></script>
+  <script src="mac-skills.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

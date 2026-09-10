@@ -19,7 +19,7 @@ async function run(expression){const r=await send('Runtime.evaluate',{expression
 const click=selector=>run('document.querySelector('+JSON.stringify(selector)+').click()');
 const action=name=>click('[data-spotlight-action="'+name+'"]');
 const query=value=>run('(()=>{const input=document.querySelector("#spotlight-input");input.value='+JSON.stringify(value)+';input.dispatchEvent(new Event("input",{bubbles:true}));})()');
-const key=async (key,code=key,modifiers=0)=>{await send('Input.dispatchKeyEvent',{type:'keyDown',key,code,modifiers});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers});};
+const key=async (key,code=key,modifiers=0)=>{await send('Input.dispatchKeyEvent',{type:'keyDown',text:key==='Enter'?'\r':key===' '?' ':undefined,key,code,modifiers,windowsVirtualKeyCode:({Enter:13,Space:32,Tab:9,Escape:27})[code]||0});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers,windowsVirtualKeyCode:({Enter:13,Space:32,Tab:9,Escape:27})[code]||0});};
 try{
 await send('Runtime.enable');await send('Log.enable');
 await send('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
@@ -27,7 +27,18 @@ await send('Page.navigate',{url:'http://127.0.0.1:8766/#spotlight-challenge'});
 for(let i=0;i<100;i++){if(await run('typeof spotlightState!=="undefined" && document.readyState==="complete"'))break;await new Promise(r=>setTimeout(r,50));}
 assert.equal(await run('spotlightState.view'),'intro');
 await action('begin');assert.equal(await run('spotlightState.open'),false);
-await key(' ','Space',4);assert.equal(await run('spotlightState.open'),true);
+assert.equal(await run('document.querySelector(".spotlight-menu-search").getAttribute("aria-label")'),'Open Spotlight');
+assert.match(await run('document.querySelector("#spotlight-instruction").textContent'),/On a real Mac, press Command \+ Space/);
+assert.match(await run('document.querySelector(".spotlight-shortcut-note").textContent'),/macOS handles this shortcut directly/);
+const searchPoint=await run('(()=>{const r=document.querySelector(".spotlight-menu-search").getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()');
+await send('Input.dispatchMouseEvent',{type:'mousePressed',...searchPoint,button:'left',clickCount:1});
+await send('Input.dispatchMouseEvent',{type:'mouseReleased',...searchPoint,button:'left',clickCount:1});
+assert.equal(await run('spotlightState.open'),true);
+await key('Escape');await key('Tab','Tab',8);await key('Tab');
+assert.equal(await run('document.activeElement.getAttribute("aria-label")'),'Open Spotlight');
+await key('Enter');assert.equal(await run('spotlightState.open'),true);
+assert.equal(await run('document.activeElement.id'),'spotlight-input');
+await key('Escape');await key(' ','Space');assert.equal(await run('spotlightState.open'),true);
 assert.equal(await run('document.activeElement.id'),'spotlight-input');
 await query('CALC');assert.equal(await run('spotlightState.results[0].name'),'Calculator');
 await key('Escape');assert.equal(await run('spotlightState.open'),false);
@@ -39,6 +50,7 @@ for(let i=0;i<8;i++){
 assert.equal(await run('spotlightState.task'),i);
 await action('hint');assert.equal(await run('spotlightState.hintVisible'),true);
 if(!await run('spotlightState.open'))await action('open');
+assert.equal(await run('document.activeElement.id'),'spotlight-input');
 await query(queries[i]);
 if(i===3)assert.equal(await run('spotlightState.results[0].name'),'288');
 if(i===4)assert.equal(await run('spotlightState.results[0].subtitle'),'The physical parts of a computer that you can see or touch.');
@@ -59,6 +71,9 @@ await action('next');
 assert.equal(await run('spotlightState.view'),'complete');
 await action('retry');
 assert.deepEqual(await run('[spotlightState.task,spotlightState.incorrect,spotlightState.completed.length,spotlightState.query,spotlightState.results.length,spotlightState.selected,spotlightState.open,spotlightState.opened,spotlightState.hints.length,spotlightState.hintVisible,spotlightState.taughtShortcut]'),[0,0,0,'',0,-1,false,null,0,false,false]);
+await key(' ','Space',4);assert.equal(await run('spotlightState.open'),true);
+await key(' ','Space',4);assert.equal(await run('spotlightState.open'),false);
+assert.equal(await run('spotlightState.incorrect'),0);
 for(const expr of ['48*6','48 * 6','48x6','48 × 6'])assert.equal(await run('parseSpotlightCalculation('+JSON.stringify(expr)+').value'),288);
 for(const expr of ['alert(1)','2**3','1/0','48*6;alert(1)'])assert.equal(await run('parseSpotlightCalculation('+JSON.stringify(expr)+')'),null);
 for(const [expr,value] of [['2+3',5],['2-3',-1],['8÷2',4],['-2*3',-6]])assert.equal(await run('parseSpotlightCalculation('+JSON.stringify(expr)+').value'),value);
@@ -66,7 +81,7 @@ await run('showDigitalCourse("macos-essentials")');await click('[data-digital-se
 assert.equal(await run('spotlightState.view'),'intro');
 await run('history.back()');await new Promise(r=>setTimeout(r,150));assert.equal(await run('location.hash'),'#macos-essentials');
 await run('history.forward()');await new Promise(r=>setTimeout(r,150));assert.equal(await run('document.querySelector(".screen.is-active").dataset.screen'),'spotlight-challenge');
-for(const route of ['system-settings','mac-skills-challenge','file-organization','file-type-detective','local-vs-cloud','file-operations']){
+for(const route of ['file-organization','file-type-detective','local-vs-cloud','file-operations']){
 await run('showDigitalPlaceholder('+JSON.stringify(route)+')');assert.equal(await run('document.querySelector(".screen.is-active").dataset.screen'),'digital-placeholder');
 }
 await run('showMacNavigation()');await click('[data-mac-action="begin"]');await click('[data-mac-app="Finder"]');assert.equal(await run('macState.completed'),true);
@@ -76,5 +91,5 @@ const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(
 await send('Emulation.setDeviceMetricsOverride',{width:600,height:768,deviceScaleFactor:1,mobile:false});
 assert.ok(await run('document.querySelector("#spotlight-panel").getBoundingClientRect().right <= innerWidth'));
 assert.deepEqual(errors,[]);
-console.log('PASS: eight tasks, hints, shortcut, fallback/focus, partial/case search, math safety, definitions, wrong recovery, no results, arrow/Enter, Escape/reopen, progress, completion/reset, Back/Forward, six placeholders, Mac Navigation smoke, Computer Systems routes, responsive bounds; no console errors.');
+console.log('PASS: eight tasks without Command + Space, hints, mouse and Tab/Enter/Space Search control, focus, secondary shortcut, partial/case search, math safety, definitions, wrong recovery, no results, arrow/Enter, Escape/reopen, progress, completion/reset, Back/Forward, four File Management placeholders, Mac Navigation smoke, Computer Systems routes, responsive bounds; no console errors.');
 } finally {await send('Browser.close').catch(()=>{});ws.close();server.close();}

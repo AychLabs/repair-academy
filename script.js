@@ -138,6 +138,8 @@ const repairTickets = [
 ];
 
 const screens = {
+  "mac-skills-challenge": document.querySelector('[data-screen="mac-skills-challenge"]'),
+  "system-settings": document.querySelector('[data-screen="system-settings"]'),
   "spotlight-challenge": document.querySelector('[data-screen="spotlight-challenge"]'),
   home: document.querySelector('[data-screen="home"]'),
   department: document.querySelector('[data-screen="department"]'),
@@ -311,6 +313,8 @@ function showDigitalCourse(courseId, updateHistory = true) {
 }
 
 function showDigitalPlaceholder(sectionId, updateHistory = true) {
+  if (sectionId === "mac-skills-challenge") { showMacSkillsChallenge(updateHistory); return; }
+  if (sectionId === "system-settings") { showSystemSettings(updateHistory); return; }
   if (sectionId === "spotlight-challenge") { showSpotlightChallenge(updateHistory); return; }
   const match = findDigitalSection(sectionId);
   if (!match) { showDigitalSkills(updateHistory); return; }
